@@ -1,0 +1,47 @@
+[gd_resource type="Resource" script_class="VehicleDefinition" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://definitions/vehicle_definition.gd" id="1"]
+[ext_resource type="Script" path="res://definitions/stage_definition.gd" id="2"]
+[ext_resource type="Script" path="res://definitions/engine_definition.gd" id="3"]
+
+[sub_resource type="Resource" id="BoosterEngine"]
+script = ExtResource("3")
+display_name = "Forge / atmospheric engine"
+vacuum_thrust = 540000.0
+sea_level_isp = 285.0
+vacuum_isp = 320.0
+
+[sub_resource type="Resource" id="UpperEngine"]
+script = ExtResource("3")
+display_name = "Lumen / vacuum engine"
+vacuum_thrust = 100000.0
+sea_level_isp = 270.0
+vacuum_isp = 360.0
+
+[sub_resource type="Resource" id="Booster"]
+script = ExtResource("2")
+display_name = "Forge booster"
+dry_mass = 3500.0
+fuel_mass = 6000.0
+oxidizer_mass = 12000.0
+length = 14.0
+radius = 1.5
+engine = SubResource("BoosterEngine")
+
+[sub_resource type="Resource" id="Upper"]
+script = ExtResource("2")
+display_name = "Lumen orbital stage"
+dry_mass = 1000.0
+fuel_mass = 1666.6666666667
+oxidizer_mass = 3333.3333333333
+length = 8.0
+radius = 1.5
+engine = SubResource("UpperEngine")
+
+[resource]
+script = ExtResource("1")
+display_name = "Orbital Test Vehicle"
+description = "A forgiving two-stage launcher with restartable engines and electric attitude control. Fly an eastward ascent, coast, then raise your periapsis above 60 km."
+payload_mass = 1500.0
+payload_length = 4.0
+stages = Array[ExtResource("2")]([SubResource("Booster"), SubResource("Upper")])
