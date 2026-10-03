@@ -1,26 +1,23 @@
 GODOT SPACE PROGRAM — PROJECT AND SPACECRAFT AUTHORING HANDOFF
-Prepared 2026-10-03. This file describes the current working source, including AORS.
+Updated 2026-10-03. This file describes the published project, including AORS.
 
 1. READ THIS BEFORE CLONING
 
 Repository: https://github.com/TizioMaurizio/Godot_Space_Program
 Branch: main
-The source-publication commit containing this handoff includes the expanded game,
+Implementation commit d266796 was pushed to main and includes the expanded game,
 part architecture, AORS station, documentation, tests and tools. Clone the latest
-main branch on the new PC; an older checkout at d101915 predates this implementation.
+main branch on the new PC. The spacecraft and station are already implemented;
+continue from them rather than rebuilding the project.
 
   git clone https://github.com/TizioMaurizio/Godot_Space_Program.git
   cd Godot_Space_Program
 
 For an existing clean checkout, use git pull --ff-only. Check for
 data/craft/aors_complete.json and simulation/docking_system.gd to confirm the
-newer source is present. A current clone does not need the earlier source ZIP
-overlaid. That ZIP remains an optional backup of the pre-publication working tree.
-
-The source snapshot contains project source, JSON data, UID sidecars, docs, tests,
-tools and validation screenshots. It excludes .git, .godot, exported binaries,
-Python caches and local logs. It is a source backup, not a compiled game build.
-The deleted Codex account/session migration tooling has not been restored.
+newer source is present. A current clone is sufficient: no source ZIP overlay or
+Codex account/session migration is required. Godot regenerates .godot locally.
+Exported binaries, local logs and personal game saves are excluded from Git.
 
 2. USER PREFERENCES — APPLY TO FUTURE WORK
 
@@ -46,7 +43,7 @@ Use the standard Godot 4.6.1 editor, the version used for development. This is a
 GDScript project; no .NET SDK, external plugin, external art download, or special
 double-precision Godot build is required.
 
-1) Transfer the current source as described above.
+1) Clone or pull the latest main branch as described above.
 2) Import/open project.godot and let Godot generate its own .godot cache.
 3) Press F5 in the editor. The main scene is game/main.tscn.
 4) Confirm the main menu has the two AORS scenario buttons and Vehicle Assembly.
@@ -69,9 +66,12 @@ Review any project.godot renderer change before sharing it with other platforms.
 
 4. PERSONAL CRAFT AND FLIGHT SAVES ARE SEPARATE FROM GIT
 
-The source snapshot contains shipped/prebuilt craft, not the Godot user directory.
-An optional game-user-data ZIP accompanies this handoff with craft/ and saves/.
-It may include craft/save files created by the earlier validation playtests.
+The repository contains shipped/prebuilt craft. Personal craft and flight saves
+live in the Godot user directory and must be copied separately if wanted.
+An optional backup made on the old PC is:
+  build/handoff/GodotSpaceProgram-game-saves-2026-10-03.zip
+That archive is local-only and is NOT downloaded by cloning. It may include files
+created by validation playtests. You can instead copy the folders below directly.
 
 Current Windows data location:
   %APPDATA%\Godot\app_userdata\Godot Space Program\
@@ -348,8 +348,9 @@ PartInstance, RocketState and the relevant UI registration before editing.
 
 We are continuing the existing Godot Space Program project in this repository.
 Read HANDOFF.txt, README.md and the latest journal/validation entries first.
-Confirm the checkout includes the current part system and AORS files. Clone or
-pull the latest main; the older d101915 revision predates the expanded source.
+The spacecraft, part system and AORS are already implemented and published in
+commit d266796 and later main history. Clone or pull the latest main and continue
+creating spacecraft with the existing systems.
 
 I test by pressing F5 in Godot. Do not build/export binaries unless I explicitly
 ask. Reuse existing parts and S/M/X/XL families. Add only necessary reusable parts.
