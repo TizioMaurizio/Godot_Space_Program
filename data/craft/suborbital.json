@@ -1,0 +1,6 @@
+{"schema_version":1,"catalog_version":1,"name":"Basic Suborbital Rocket","root_part_id":"probe","aero_model":"parts","parts":[
+ {"id":"probe","definition_id":"command.probe","position_m":[0,0,0],"rotation_xyzw":[0,0,0,1]},
+ {"id":"tank","definition_id":"tank.small","position_m":[0,-1.25,0],"rotation_xyzw":[0,0,0,1]},
+ {"id":"engine","definition_id":"engine.spark","position_m":[0,-2.75,0],"rotation_xyzw":[0,0,0,1]}],
+ "connections":[{"id":"j1","a":["probe","bottom"],"b":["tank","top"],"crossfeed":true},{"id":"j2","a":["tank","bottom"],"b":["engine","top"],"crossfeed":true}],
+ "stages":[{"id":"launch","actions":[{"part_id":"engine","action":"ignite"}]}],"symmetry_groups":[]}

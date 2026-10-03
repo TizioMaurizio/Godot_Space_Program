@@ -7,6 +7,8 @@ signal menu_requested
 signal quit_requested
 signal sas_requested(mode: int)
 signal map_requested
+signal build_requested
+signal vehicle_selected(path: String)
 
 const INK := Color("e0ecf1")
 const MUTED := Color("86a0b0")
@@ -34,7 +36,14 @@ func _ready() -> void:
 	add_child(menu_controls)
 	add_child(flight_controls)
 	make_button(menu_controls, "SELECT VEHICLE  /  GO TO LAUNCHPAD  →", Vector2(66, 587), Vector2(452, 56), launch_requested.emit)
-	make_button(menu_controls, "QUIT", Vector2(66, 660), Vector2(108, 38), quit_requested.emit)
+	make_button(menu_controls, "QUIT", Vector2(410, 660), Vector2(108, 38), quit_requested.emit)
+	make_button(menu_controls,"VEHICLE ASSEMBLY",Vector2(66,660),Vector2(330,38),build_requested.emit)
+	var chooser := OptionButton.new(); chooser.position = Vector2(66,232); chooser.size = Vector2(452,34)
+	chooser.add_item("Orbital Test Vehicle"); chooser.add_item("Basic Suborbital Rocket")
+	chooser.add_item("Neris Explorer")
+	chooser.add_item("X Module Launcher"); chooser.add_item("S Docking Tug")
+	chooser.item_selected.connect(func(index): vehicle_selected.emit(["res://data/craft/orbital_test_vehicle.json","res://data/craft/suborbital.json","res://data/craft/neris_explorer.json","res://data/craft/module_launcher.json","res://data/craft/docking_tug.json"][index]))
+	menu_controls.add_child(chooser)
 	make_button(flight_controls, "RELAUNCH", Vector2(0, 0), Vector2(106, 32), restart_requested.emit).name = "Restart"
 	make_button(flight_controls, "VEHICLES", Vector2(0, 0), Vector2(106, 32), menu_requested.emit).name = "Menu"
 	make_button(flight_controls, "ORBIT MAP · M", Vector2.ZERO, Vector2(146, 34), map_requested.emit).name = "Map"
@@ -110,34 +119,37 @@ func _draw() -> void:
 		return
 	if in_menu:
 		draw_rect(Rect2(0, 0, 570, size.y), Color(0.02, 0.045, 0.065, 0.97))
-		text_at(Vector2(66, 65), "A S T E R   /   F L I G H T   L A B", 18, ACCENT)
+		text_at(Vector2(66, 65), "GODOT SPACE PROGRAM", 22, ACCENT)
 		text_at(Vector2(66, 169), "Your first orbit.", 48)
 		text_at(Vector2(66, 209), "Built on physics. Flown by you.", 22, MUTED)
 		text_at(Vector2(66, 284), "01    /    VEHICLE SELECTION", 14, ACCENT)
 		panel(Rect2(66, 310, 452, 244))
-		text_at(Vector2(88, 350), "Orbital Test Vehicle", 27)
-		text_at(Vector2(88, 382), "FORGE BOOSTER  +  LUMEN ORBITAL STAGE", 12, GOLD)
+		text_at(Vector2(88, 350), rocket.definition.display_name, 24)
+		text_at(Vector2(88, 382), "%d PARTS  /  %d STAGES" % [rocket.graph.parts.size(),rocket.definition.stages.size()], 12, GOLD)
 		text_at(Vector2(88, 424), "Two restartable stages. Electric attitude control.", 16, MUTED)
 		text_at(Vector2(88, 451), "An ample fuel margin for learning to fly.", 16, MUTED)
-		metric(88, 492, "LIFTOFF MASS", "%.1f t" % (rocket.definition.wet_mass() / 1000))
-		metric(294, 492, "VACUUM Δv", "%.0f m/s" % rocket.definition.vacuum_delta_v())
+		metric(88, 492, "LIFTOFF MASS", "%.1f t" % (rocket.design_analysis.mass / 1000))
+		metric(294, 492, "VACUUM Δv", "%.0f m/s" % rocket.design_analysis.delta_v)
 		text_at(Vector2(66, size.y - 96), "TARGET   /   ASTER", 13, ACCENT)
 		text_at(Vector2(66, size.y - 64), "%.0f km radius  ·  %.2f m/s²  ·  atmosphere to %.0f km" % [planet.radius / 1000, planet.mu() / (planet.radius * planet.radius), planet.atmosphere.height / 1000], 15, MUTED)
 		text_at(Vector2(size.x - 365, size.y - 45), "ORBITAL RESEARCH  /  FLIGHT ARTICLE 01", 13, INK)
 		return
 	panel(Rect2(18, 14, size.x - 36, 52))
-	text_at(Vector2(36, 47), "ASTER  /  FLIGHT LAB", 19, ACCENT)
+	text_at(Vector2(36, 47), "GODOT SPACE PROGRAM", 19, ACCENT)
 	var met: float = maxf(0.0, rocket.elapsed - rocket.launch_time) if rocket.launch_time >= 0 else 0.0
 	text_at(Vector2(310, 46), "MET  %02d:%02d" % [int(met) / 60, int(met) % 60], 19)
 	text_at(Vector2(485, 46), status(), 16, GOLD if not telemetry.orbit.stable else ACCENT)
 	panel(Rect2(24, 88, 266, 421))
 	text_at(Vector2(42, 116), "FLIGHT TELEMETRY", 13, ACCENT)
-	metric(42, 148, "ALTITUDE / SEA LEVEL", distance(telemetry.altitude))
+	metric(42, 148, planet.display_name.to_upper()+" / ALTITUDE", distance(telemetry.altitude))
 	metric(42, 214, "SURFACE SPEED", "%.1f m/s" % telemetry.surface_speed)
 	metric(42, 280, "INERTIAL SPEED", "%.1f m/s" % telemetry.orbital_speed)
 	metric(42, 346, "VERTICAL SPEED", "%+.1f m/s" % telemetry.vertical_speed)
 	metric(42, 412, "DYNAMIC PRESSURE", "%.2f kPa" % (rocket.dynamic_pressure / 1000))
 	text_at(Vector2(42, 486), "MAX Q   %.2f kPa" % (rocket.peak_q / 1000), 14, MUTED)
+	if rocket.structure.maximum_utilization > 0.65:
+		panel(Rect2(size.x*0.5-180,180,360,46))
+		text_at(Vector2(size.x*0.5-162,210),"STRUCTURAL LOAD  %.0f%%" % (rocket.structure.maximum_utilization*100),20,GOLD)
 	var ox: float = size.x - 300
 	panel(Rect2(ox, 88, 276, 324))
 	text_at(Vector2(ox + 18, 116), "ORBIT / OSCULATING", 13, ACCENT)
@@ -201,12 +213,16 @@ func status() -> String:
 	return "ATMOSPHERIC FLIGHT"
 
 func guidance() -> String:
+	if rocket.water_contact: return "Water contact / buoyancy active.\nX: cut thrust. Let the craft settle.\nDense or flooded debris can sink."
+	if planet is CelestialBodyDefinition:
+		if rocket.contacting: return "Neris surface contact.\nX: cut thrust. Check part damage.\nUse low throttle for departure."
+		return "Neris reference frame. M: map.\nRetrograde burn near periapsis\nreduces speed for lunar capture."
 	if rocket.crashed: return "Surface impact.\nUse RELAUNCH to start again.\nKeep your nose above the horizon."
 	if rocket.on_pad: return "Z: full throttle. SPACE: ignite.\nClimb vertically to 1 km.\nThen hold W to pitch eastward."
 	if telemetry.vertical_speed < -100 and telemetry.altitude < planet.atmosphere.height:
 		return "Airflow applies force and torque.\nSAS OFF lets the craft weathercock.\nWatch heating and dynamic pressure."
 	if telemetry.orbit.stable: return "X: cut the engine.\nYour orbit now sustains itself.\nWatch altitude and periapsis."
-	if rocket.current_stage().fraction() < 0.01 and rocket.stage_index == 0: return "Booster depleted. Press SPACE.\nStage 2 starts at your set throttle.\nKeep watching apoapsis."
+	if rocket.current_stage().fraction() < 0.01 and rocket.stage_index == 0 and rocket.stages.size() > 1: return "Booster depleted. Press SPACE.\nStage 2 starts at your set throttle.\nKeep watching apoapsis."
 	if telemetry.altitude > 60000: return "P: prograde. Burn near apoapsis.\nRaise PERIAPSIS above 60 km.\nX: cut thrust once orbit is stable."
 	if telemetry.orbit.apoapsis > 110000 and telemetry.vertical_speed > 100: return "X: cut thrust. Coast upward.\nSPACE: stage booster. P: prograde.\nBurn about 50 s before apoapsis."
 	if telemetry.altitude < 1000: return "Hold vertical until 1 km.\nW pitches east; S pitches back.\nH holds your chosen attitude."
@@ -224,7 +240,7 @@ func draw_help() -> void:
 		"Right drag     Orbit camera       Wheel     Zoom       ESC     Pause",
 		", / .     Slower / faster: 1–4x physics, up to 1,000x coast",
 		"Coast warp: engines off; controls or atmosphere approach end warp.",
-		"M     Orbit map / flight       F     Fit map       TAB     Map focus",
+		"M     Orbit map       Click part     Inspect       F4     Structure",
 		"Launch vertical. Pitch gradually east starting at 1 km.",
 		"Aim 65° at 5 km, 35° at 20 km, then lower toward the horizon.",
 		"Cut at Ap 120 km. Separate booster, then coast in prograde.",

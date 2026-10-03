@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "type": "initialized_orbital_scenario",
+  "label": "PREBUILT / INITIALIZED FOR PLAYTESTING",
+  "station": "res://data/craft/aors_complete.json",
+  "altitude_m": 120000,
+  "inclination_deg": 51.6,
+  "raan_deg": 25,
+  "argument_of_latitude_deg": 0,
+  "visitor": "res://data/craft/docking_tug.json",
+  "visitor_distance_m": 650
+}

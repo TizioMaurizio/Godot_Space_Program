@@ -33,6 +33,20 @@ var fit_button: Button
 var focus_button: Button
 var flight_button: Button
 var label_rects: Array[Rect2] = []
+var layers: PlanetLayers
+var ocean_mesh: MeshInstance3D
+var visual_config: PlanetDefinition
+var remote_visuals: Dictionary = {}
+var system_lines: MeshInstance3D
+var patched_lines: MeshInstance3D
+var patched: Dictionary = {}
+var patched_clock: float = 3
+var session: FlightSession
+var vessel_lines: MeshInstance3D
+var vessel_clock: float = 2
+
+func center_position() -> DVec3:
+	return rocket.celestial.ephemeris(planet,rocket.elapsed).position if rocket.celestial != null else DVec3.new()
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -93,6 +107,9 @@ func _ready() -> void:
 	line_mat.vertex_color_use_as_albedo = true
 	path_mesh.material_override = line_mat
 	viewport.add_child(path_mesh)
+	system_lines = MeshInstance3D.new(); system_lines.material_override = line_mat; viewport.add_child(system_lines)
+	patched_lines = MeshInstance3D.new(); patched_lines.material_override = line_mat; viewport.add_child(patched_lines)
+	vessel_lines = MeshInstance3D.new(); vessel_lines.material_override = line_mat; viewport.add_child(vessel_lines)
 	map_camera = Camera3D.new()
 	map_camera.projection = Camera3D.PROJECTION_ORTHOGONAL
 	map_camera.current = true
@@ -120,7 +137,20 @@ func button(title: String, callback: Callable) -> Button:
 
 func open(state: RocketState, config: PlanetDefinition, time_warp: TimeWarp) -> void:
 	rocket = state
+	config = state.reference_body
 	planet = config
+	if visual_config != config:
+		visual_config = config
+		planet_mesh.mesh = TerrainMesher.globe(config,48,1.0/config.radius)
+		var mat := ShaderMaterial.new(); mat.shader = load("res://shaders/terrain.gdshader"); mat.set_shader_parameter("lunar",config is CelestialBodyDefinition); planet_mesh.material_override = mat
+		atmosphere_mesh.visible = false
+		if is_instance_valid(layers) and layers.is_inside_tree(): layers.queue_free()
+		layers = PlanetLayers.new(); viewport.add_child(layers); layers.setup(config,1.0/config.radius)
+		if ocean_mesh != null: ocean_mesh.queue_free(); ocean_mesh = null
+		if config.ocean != null:
+			ocean_mesh = MeshInstance3D.new(); var sphere := SphereMesh.new(); sphere.radius = 1; sphere.height = 2; sphere.radial_segments = 256; sphere.rings = 128; ocean_mesh.mesh = sphere
+			var sea_mat := ShaderMaterial.new(); sea_mat.shader = load("res://shaders/ocean.gdshader"); sea_mat.set_shader_parameter("render_scale",1.0/config.radius)
+			ocean_mesh.material_override = sea_mat; viewport.add_child(ocean_mesh)
 	warp = time_warp
 	visible = true
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
@@ -137,8 +167,8 @@ func close() -> void:
 func fit_view() -> void:
 	if rocket == null:
 		return
-	var normal: Vector3 = rocket.position.cross(rocket.velocity).unit().vec()
-	var up: Vector3 = rocket.position.unit().vec()
+	var normal: Vector3 = rocket.relative_position().cross(rocket.relative_velocity()).unit().vec()
+	var up: Vector3 = rocket.relative_position().unit().vec()
 	if normal.length_squared() < 0.1:
 		normal = up.cross(Vector3.RIGHT).normalized()
 	if normal.length_squared() < 0.1:
@@ -153,6 +183,17 @@ func fit_view() -> void:
 
 func handle(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
+		if event.pressed and event.button_index == MOUSE_BUTTON_LEFT and session != null:
+			for body: RocketState in session.registry.bodies:
+				if body == rocket or body.lifecycle != "PERSISTENT": continue
+				var point := body.position.minus(center_position()).scaled(1.0/planet.radius).vec()
+				var screen: Vector2 = texture.position+map_camera.unproject_position(point)
+				if screen.distance_to(event.position) < 18:
+					if event.double_click: session.switch_vessel(body.vessel_uid)
+					else:
+						session.target_uid = body.vessel_uid
+						var ports := DockingSystem.ports(body); session.target_port_id = ports[0].id if not ports.is_empty() else ""
+					break
 		if event.button_index == MOUSE_BUTTON_RIGHT:
 			dragging = event.pressed
 		if event.pressed and event.button_index == MOUSE_BUTTON_WHEEL_UP:
@@ -167,10 +208,14 @@ func handle(event: InputEvent) -> void:
 			fit_view()
 		if event.keycode == KEY_TAB:
 			focus_craft = not focus_craft
+		if event.keycode == KEY_B:
+			focus_craft = false; zoom_target = 15*rocket.celestial.primary.radius/planet.radius
 
 func update_map(delta: float, is_paused: bool) -> void:
 	if not visible or rocket == null:
 		return
+	if planet != rocket.reference_body:
+		initialized_view = false; open(rocket,rocket.reference_body,warp)
 	paused = is_paused
 	texture.position = Vector2(312, 82)
 	texture.size = Vector2(maxf(400, size.x - 336), maxf(300, size.y - 184))
@@ -189,19 +234,87 @@ func update_map(delta: float, is_paused: bool) -> void:
 		refresh_path()
 	zoom = lerpf(zoom, zoom_target, 1.0 - exp(-delta * 10.0))
 	map_camera.size = zoom
-	var target := rocket.position.scaled(1.0 / planet.radius).vec() if focus_craft else Vector3.ZERO
+	var target := rocket.relative_position().scaled(1.0 / planet.radius).vec() if focus_craft else Vector3.ZERO
 	var offset: Vector3 = view_basis * Vector3(sin(yaw) * cos(pitch), sin(pitch), cos(yaw) * cos(pitch))
 	map_camera.position = target + offset * maxf(10.0, zoom * 2.0)
 	map_camera.near = 0.01
 	map_camera.far = maxf(100.0, zoom * 10.0)
 	map_camera.look_at(target, view_basis.y)
 	planet_mesh.rotation.z = rocket.elapsed * planet.rotation_rate
+	layers.update_layers(rocket.elapsed)
+	PlanetLayers.update_surface(planet_mesh.material_override,planet,rocket.elapsed)
+	if ocean_mesh != null: ocean_mesh.quaternion = planet_mesh.quaternion
+	update_system(delta)
+	update_vessels(delta)
 	atmosphere_mesh.scale = Vector3.ONE * (1.0 + planet.atmosphere.height / planet.radius)
 	queue_redraw()
 	get_node("Annotations").queue_redraw()
 
+func update_vessels(delta: float) -> void:
+	if session == null: return
+	vessel_clock += delta
+	if vessel_clock < 1: return
+	vessel_clock = 0
+	var lines := ImmediateMesh.new(); var began: bool = false
+	for body: RocketState in session.registry.bodies:
+		if body == rocket or body.lifecycle != "PERSISTENT": continue
+		var orbit := OrbitPrediction.sample(body.relative_position(),body.relative_velocity(),body.reference_body,96)
+		if orbit.points.size() < 2: continue
+		if not began: lines.surface_begin(Mesh.PRIMITIVE_LINES); began = true
+		var offset: DVec3 = session.celestial.ephemeris(body.reference_body,body.elapsed).position.minus(center_position())
+		for i in range(orbit.points.size()-1):
+			for point: DVec3 in [orbit.points[i],orbit.points[i+1]]:
+				lines.surface_set_color(GOLD if body.vessel_uid == session.target_uid else Color("83a3cf"))
+				lines.surface_add_vertex(point.plus(offset).scaled(1.0/planet.radius).vec())
+	if began: lines.surface_end()
+	vessel_lines.mesh = lines
+
+func update_system(delta: float) -> void:
+	if rocket.celestial == null: return
+	var system := rocket.celestial; var center := center_position()
+	var bodies: Array = [system.primary]; bodies.append_array(system.moons)
+	for body: PlanetDefinition in bodies:
+		if body == planet:
+			if remote_visuals.has(body): remote_visuals[body].visible = false
+			continue
+		if not remote_visuals.has(body):
+			var node := MeshInstance3D.new(); node.mesh = TerrainMesher.globe(body,32,1.0/planet.radius)
+			var mat := ShaderMaterial.new(); mat.shader = load("res://shaders/terrain.gdshader"); mat.set_shader_parameter("lunar",body is CelestialBodyDefinition)
+			node.material_override = mat; viewport.add_child(node); remote_visuals[body] = node
+		var node: MeshInstance3D = remote_visuals[body]; node.visible = true
+		# Meshes are rebuilt only when the reference-body rendering scale changes.
+		if node.get_meta("radius_scale",planet.radius) != planet.radius: node.mesh = TerrainMesher.globe(body,32,1.0/planet.radius)
+		node.set_meta("radius_scale",planet.radius)
+		node.position = system.ephemeris(body,rocket.elapsed).position.minus(center).scaled(1.0/planet.radius).vec()
+		node.quaternion = SurfaceQuery.rotation(body,rocket.elapsed); PlanetLayers.update_surface(node.material_override,body,rocket.elapsed)
+	var lines := ImmediateMesh.new(); lines.surface_begin(Mesh.PRIMITIVE_LINES)
+	for moon in system.moons:
+		var moon_position: DVec3 = system.ephemeris(moon,rocket.elapsed).position
+		for i in range(128):
+			for angle in [TAU*i/128,TAU*(i+1)/128]:
+				lines.surface_set_color(Color(0.3,0.42,0.55,0.6))
+				lines.surface_add_vertex(DVec3.new(cos(angle),sin(angle),0).scaled(moon.orbit_radius).minus(center).scaled(1.0/planet.radius).vec())
+			for angle in [TAU*i/128,TAU*(i+1)/128]:
+				lines.surface_set_color(Color(0.55,0.45,0.7,0.5))
+				lines.surface_add_vertex(moon_position.plus(DVec3.new(cos(angle),sin(angle),0).scaled(moon.sphere_of_influence(system.primary))).minus(center).scaled(1.0/planet.radius).vec())
+	lines.surface_end(); system_lines.mesh = lines
+	patched_clock += delta
+	if patched_clock < 2: return
+	patched_clock = 0
+	var relevant: bool = prediction.orbit.apoapsis > system.moons[0].orbit_radius-system.primary.radius-system.moons[0].sphere_of_influence(system.primary) if planet == system.primary else (not prediction.orbit.bound or prediction.orbit.apoapsis > (planet as CelestialBodyDefinition).sphere_of_influence(system.primary)-planet.radius)
+	patched = PatchedConicPrediction.predict(system,rocket.position,rocket.velocity,rocket.elapsed) if relevant else {}
+	var trajectory := ImmediateMesh.new()
+	if not patched.is_empty() and patched.points.size() > 1:
+		trajectory.surface_begin(Mesh.PRIMITIVE_LINES)
+		for i in range(patched.points.size()-1):
+			for point in [patched.points[i],patched.points[i+1]]:
+				trajectory.surface_set_color(Color("baafff") if point.body is CelestialBodyDefinition else Color("79dccc"))
+				trajectory.surface_add_vertex(point.position.minus(system.ephemeris(planet,point.time).position).scaled(1.0/planet.radius).vec())
+		trajectory.surface_end()
+	patched_lines.mesh = trajectory
+
 func refresh_path() -> void:
-	prediction = OrbitPrediction.sample(rocket.position, rocket.velocity, planet)
+	prediction = OrbitPrediction.sample(rocket.relative_position(), rocket.relative_velocity(), planet)
 	var mesh := ImmediateMesh.new()
 	var points: Array = prediction.points
 	if points.size() >= 2:
@@ -229,10 +342,10 @@ func _draw() -> void:
 		return
 	draw_rect(Rect2(Vector2.ZERO, size), Color("050c15"))
 	panel(Rect2(18, 14, size.x - 36, 52))
-	label_at(Vector2(36, 47), "ASTER  /  ORBIT MAP", 21, TEAL)
-	label_at(Vector2(340, 46), "PAUSED" if paused else "LIVE FLIGHT", 14, GOLD if paused else MUTED)
+	label_at(Vector2(36, 47), "GODOT SPACE PROGRAM", 19, TEAL)
+	label_at(Vector2(340, 46), "ORBIT MAP / PAUSED" if paused else "ORBIT MAP / LIVE FLIGHT", 14, GOLD if paused else MUTED)
 	panel(Rect2(24, 82, 270, size.y - 184))
-	label_at(Vector2(42, 116), "ORBITAL TEST VEHICLE", 14, TEAL)
+	label_at(Vector2(42, 116), rocket.definition.display_name.to_upper().left(24), 14, TEAL)
 	var orbit: Dictionary = prediction.orbit
 	var status: String = "STABLE ORBIT" if orbit.stable else "SUBORBITAL"
 	if orbit.bound and not orbit.stable and orbit.periapsis >= 0: status = "ATMOSPHERIC ORBIT"
@@ -241,12 +354,12 @@ func _draw() -> void:
 	if rocket.on_pad: status = "ON LAUNCHPAD"
 	if rocket.crashed: status = "VEHICLE LOST"
 	label_at(Vector2(42, 150), status, 18, path_color())
-	metric(192, "ALTITUDE", FlightHUD.distance(rocket.position.length() - planet.radius))
+	metric(192, "ALTITUDE", FlightHUD.distance(rocket.relative_position().length() - planet.radius))
 	metric(257, "APOAPSIS", FlightHUD.distance(orbit.apoapsis))
 	metric(322, "PERIAPSIS", FlightHUD.distance(orbit.periapsis), TEAL if orbit.stable else GOLD)
 	metric(387, "TIME TO APOAPSIS", "%.0f s" % orbit.time_to_ap if is_finite(orbit.time_to_ap) else "—")
-	metric(452, "ORBITAL SPEED", "%.0f m/s" % rocket.velocity.length())
-	var normal := rocket.position.cross(rocket.velocity).unit()
+	metric(452, "ORBITAL SPEED", "%.0f m/s" % rocket.relative_velocity().length())
+	var normal := rocket.relative_position().cross(rocket.relative_velocity()).unit()
 	label_at(Vector2(42, 517), "ECC  %.4f" % orbit.eccentricity, 14, MUTED)
 	label_at(Vector2(42, 545), "INCLINATION  —" if prediction.radial else "INCLINATION  %.1f°" % rad_to_deg(acos(clampf(normal.z, -1, 1))), 14, MUTED)
 	label_at(Vector2(42, 573), "PERIOD  %.1f min" % (orbit.period / 60) if is_finite(orbit.period) else "PERIOD  —", 14, MUTED)
@@ -266,7 +379,19 @@ func draw_annotations() -> void:
 		return
 	var painter: Control = get_node("Annotations")
 	label_rects.clear()
-	marker(painter, rocket.position, "YOU", Color.WHITE, Vector2(14, -16), true)
+	marker(painter, rocket.relative_position(), "YOU", Color.WHITE, Vector2(14, -16), true)
+	if session != null:
+		for body: RocketState in session.registry.bodies:
+			if body != rocket and body.lifecycle == "PERSISTENT":
+				marker(painter,body.position.minus(center_position()),body.vessel_name.left(32),GOLD if body.vessel_uid == session.target_uid else TEAL,Vector2(14,30))
+	if rocket.celestial != null:
+		var center := center_position()
+		for moon in rocket.celestial.moons:
+			if moon != planet: marker(painter,rocket.celestial.ephemeris(moon,rocket.elapsed).position.minus(center),moon.display_name+" / SOI",Color("baafff"),Vector2(15,-20))
+		if not patched.is_empty():
+			for encounter in patched.encounters:
+				marker(painter,encounter.position.minus(center),encounter.to+" encounter  +%.0fs"%(encounter.time-rocket.elapsed),Color("baafff"),Vector2(15,25))
+			if patched.periapsis_position != null: marker(painter,patched.periapsis_position.minus(center),"Neris Pe "+FlightHUD.distance(patched.lunar_periapsis),GOLD,Vector2(15,25))
 	if prediction.apoapsis_position != null:
 		marker(painter, prediction.apoapsis_position, "Ap  " + FlightHUD.distance(prediction.orbit.apoapsis), TEAL, Vector2(15, -19))
 	if prediction.periapsis_position != null:
@@ -284,7 +409,7 @@ func marker(painter: Control, point: DVec3, title: String, color: Color, offset:
 	var p: Vector2 = texture.position + map_camera.unproject_position(world_point)
 	if not texture.get_rect().grow(-10).has_point(p): return
 	if craft:
-		var ahead: Vector2 = texture.position + map_camera.unproject_position(world_point + rocket.velocity.unit().vec() * 0.05)
+		var ahead: Vector2 = texture.position + map_camera.unproject_position(world_point + rocket.relative_velocity().unit().vec() * 0.05)
 		var angle: float = (ahead - p).angle() + PI * 0.5
 		painter.draw_colored_polygon(PackedVector2Array([p + Vector2(0, -8).rotated(angle), p + Vector2(7, 6).rotated(angle), p, p + Vector2(-7, 6).rotated(angle)]), color)
 	else:

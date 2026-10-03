@@ -26,6 +26,8 @@ var aerodynamic_torque := Vector3.ZERO
 var damping_coefficient := Vector3.ZERO
 ## Qualitative convective-heating proxy for FX, not a thermal damage simulation.
 var heating: float = 0.0
+var applied_torque := Vector3.ZERO
+var simulation_active: bool = true
 
 func sample_atmosphere(planet: PlanetDefinition) -> void:
 	atmosphere_velocity = PlanetPhysics.air_velocity(position, planet)
@@ -38,31 +40,50 @@ func sample_atmosphere(planet: PlanetDefinition) -> void:
 	heating = clampf(sqrt(density) * pow(air_velocity.length() / 2200.0, 3.0) / 0.2, 0.0, 1.0)
 
 func integrate_attitude(control_torque: Vector3, dt: float) -> void:
-	var moments: Vector3 = inertia()
-	var gyroscopic: Vector3 = angular_velocity.cross(moments * angular_velocity)
-	# Semi-implicit angular step; implicit drag damping cannot add spin energy.
-	angular_velocity = (angular_velocity + (control_torque + aerodynamic_torque - gyroscopic) / moments * dt) / (Vector3.ONE + damping_coefficient / moments * dt)
+	var tensor := inertia_tensor()
+	var omega := DVector.from_vec(angular_velocity)
+	var momentum := tensor.multiply(omega)
+	var torque := DVector.from_vec(control_torque + aerodynamic_torque + applied_torque).minus(omega.cross(momentum))
+	var effective := tensor.plus(SymmetricTensor.new(damping_coefficient.x*dt,damping_coefficient.y*dt,damping_coefficient.z*dt))
+	angular_velocity = effective.solve(momentum.plus(torque.scaled(dt))).vec()
 	var rate: float = angular_velocity.length()
 	if rate > 1.0e-8:
 		orientation = (orientation * Quaternion(angular_velocity / rate, rate * dt)).normalized()
 
 func integrate(dt: float, planet: PlanetDefinition, thrust: DVec3) -> void:
-	if crashed:
+	if not simulation_active:
 		return
 	thrust_force = thrust
 	gravity = PlanetPhysics.gravity(position, planet)
 	sample_atmosphere(planet)
-	var a0 := gravity.plus(drag_force.plus(thrust).scaled(1.0 / mass))
+	var extra0 := additional_force(position,velocity,planet,dt,0.0)
+	var a0 := gravity.plus(drag_force.plus(thrust).plus(extra0).scaled(1.0 / mass))
 	var half_velocity := velocity.plus(a0.scaled(dt * 0.5))
 	position = position.plus(half_velocity.scaled(dt))
 	var predicted_velocity := velocity.plus(a0.scaled(dt))
 	var rho1 := PlanetPhysics.density(position.length() - planet.radius, planet.atmosphere)
 	var air1 := predicted_velocity.minus(PlanetPhysics.air_velocity(position, planet))
-	var drag1 := Aerodynamics.drag(air1, rho1, 1.0, Aerodynamics.drag_area(self, air1))
-	var a1 := PlanetPhysics.gravity(position, planet).plus(drag1.plus(thrust).scaled(1.0 / mass))
+	var drag1 := endpoint_drag(position,predicted_velocity,planet,rho1,air1)
+	var gravity1 := PlanetPhysics.gravity(position, planet)
+	var extra1 := additional_force(position,predicted_velocity,planet,dt,dt)
+	var a1 := gravity1.plus(drag1.plus(thrust).plus(extra1).scaled(1.0 / mass))
 	velocity = half_velocity.plus(a1.scaled(dt * 0.5))
 	acceleration = a0.plus(a1).scaled(0.5)
+	gravity = gravity.plus(gravity1).scaled(0.5)
 
 func inertia() -> Vector3:
 	var transverse: float = mass * (3.0 * radius * radius + length * length) / 12.0
 	return Vector3(transverse, 0.5 * mass * radius * radius, transverse)
+
+func inertia_tensor() -> SymmetricTensor:
+	var diagonal := inertia()
+	return SymmetricTensor.new(diagonal.x,diagonal.y,diagonal.z)
+
+func control_torque_limit() -> float:
+	return INF
+
+func endpoint_drag(_position: DVec3, _velocity: DVec3, _planet: PlanetDefinition, rho: float, air: DVec3) -> DVec3:
+	return Aerodynamics.drag(air,rho,1.0,Aerodynamics.drag_area(self,air))
+
+func additional_force(_position: DVec3, _velocity: DVec3, _planet: PlanetDefinition, _dt: float, _sample_dt: float) -> DVec3:
+	return DVec3.new()

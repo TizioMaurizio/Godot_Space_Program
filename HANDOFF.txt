@@ -1,0 +1,369 @@
+GODOT SPACE PROGRAM — PROJECT AND SPACECRAFT AUTHORING HANDOFF
+Prepared 2026-10-03. This file describes the current working source, including AORS.
+
+1. READ THIS BEFORE CLONING
+
+Repository: https://github.com/TizioMaurizio/Godot_Space_Program
+Branch: main
+The source-publication commit containing this handoff includes the expanded game,
+part architecture, AORS station, documentation, tests and tools. Clone the latest
+main branch on the new PC; an older checkout at d101915 predates this implementation.
+
+  git clone https://github.com/TizioMaurizio/Godot_Space_Program.git
+  cd Godot_Space_Program
+
+For an existing clean checkout, use git pull --ff-only. Check for
+data/craft/aors_complete.json and simulation/docking_system.gd to confirm the
+newer source is present. A current clone does not need the earlier source ZIP
+overlaid. That ZIP remains an optional backup of the pre-publication working tree.
+
+The source snapshot contains project source, JSON data, UID sidecars, docs, tests,
+tools and validation screenshots. It excludes .git, .godot, exported binaries,
+Python caches and local logs. It is a source backup, not a compiled game build.
+The deleted Codex account/session migration tooling has not been restored.
+
+2. USER PREFERENCES — APPLY TO FUTURE WORK
+
+- Work directly in the existing Godot project. The user tests by pressing F5.
+- DO NOT export Windows/Linux executables or ZIP releases unless explicitly asked.
+- Reuse existing parts first. Add only genuinely necessary, reusable parts.
+- Prefer standard S/M/X/XL families, not a unique bespoke part for every vehicle.
+- Prefer a quick playable spacecraft and short, relevant checks. Do not run long
+  ascent/lunar campaigns or exhaustive test sweeps for every craft-only change.
+- The user is willing to discover and handle physical design problems in play.
+  Report limitations honestly; do not spend hours making every design foolproof.
+- Implement the requested craft, rather than stopping at an architecture proposal.
+- Make routine engineering choices without repeated confirmation requests.
+- Preserve real mass, COM, inertia, forces, fuel and momentum. Do not secretly
+  stabilize a craft, alter gravity, restore its orbit, or make it indestructible.
+- Clearly label deliberately initialized orbital scenarios and test fixtures.
+- Preserve unrelated local changes and UID sidecars. Report Git publication status
+  accurately; untracked files are not transferred by a clone.
+
+3. NEW-PC SETUP
+
+Use the standard Godot 4.6.1 editor, the version used for development. This is a
+GDScript project; no .NET SDK, external plugin, external art download, or special
+double-precision Godot build is required.
+
+1) Transfer the current source as described above.
+2) Import/open project.godot and let Godot generate its own .godot cache.
+3) Press F5 in the editor. The main scene is game/main.tscn.
+4) Confirm the main menu has the two AORS scenario buttons and Vehicle Assembly.
+
+Export templates are NOT needed to edit the project or use F5. Python is needed
+only for optional procedural-data generation and explicit release-build scripts.
+
+Do not copy the old .godot cache. Preserve .gd.uid/.gdshader.uid/.gdshaderinc.uid
+files supplied with the source. Restart an editor that was open through external
+file changes if it reports stale/unrecognized UIDs.
+
+Rendering: default is Compatibility/OpenGL. The old Intel Iris Xe machine with
+driver 32.0.101.5542 intermittently crashed in igxelpicd64.dll during graphical
+shutdown. Vulkan/Mobile passed the checked startup/rendered cases. This is a
+machine-specific history, not a requirement to change every PC's renderer.
+On an affected PC, select Mobile in the editor's renderer selector and restart
+as requested by Godot, then use F5; or run a one-off command:
+  godot --path . --rendering-method mobile --rendering-driver vulkan
+Review any project.godot renderer change before sharing it with other platforms.
+
+4. PERSONAL CRAFT AND FLIGHT SAVES ARE SEPARATE FROM GIT
+
+The source snapshot contains shipped/prebuilt craft, not the Godot user directory.
+An optional game-user-data ZIP accompanies this handoff with craft/ and saves/.
+It may include craft/save files created by the earlier validation playtests.
+
+Current Windows data location:
+  %APPDATA%\Godot\app_userdata\Godot Space Program\
+Copy only craft/ and saves/ into the same application's user directory on the new
+PC. Back up an existing destination first if names conflict.
+
+In Godot, Project > Open User Data Folder is the simplest way to locate it on
+another OS. Typical Linux default:
+  ~/.local/share/godot/app_userdata/Godot Space Program/
+
+user://craft/*.json: saved construction recipes.
+user://saves/quicksave.json: live session, vessels, docking and resources.
+Shader caches and log folders do not need to move.
+
+5. CURRENT GAME STATE
+
+- Aster: radius 600,000 m, surface g 9.81 m/s², mu derived as g*R²,
+  60,000 m atmosphere, 21,600 s rotation period.
+- Neris: airless moon, 100,000 m radius, mu 8e9 m³/s², 3,000,000 m orbit radius.
+- Part-based spacecraft, fuel routing, action staging, COM/full inertia, per-engine
+  thrust/gimbal, per-part aero, structural failure, contacts and nearby wreckage.
+- Vehicle editor with drag/snap, branch manipulation, symmetry, stage editing,
+  engineering estimates, undo/redo and design saves.
+- Spherical terrain/ocean queries, water buoyancy/drag, reentry/water FX, clouds,
+  day/night lights, map, physics warp and analytic vacuum coast.
+- Patched-conic Moon encounters, capture/escape/return; shared celestial clock.
+- AORS playtest: RCS, physical soft/hard docking, undocking, persistent vessels,
+  vessel switching/targeting, whole-flight saves and modern electrical buses.
+
+Shipped construction recipes in data/craft/:
+  orbital_test_vehicle.json — original two-stage orbital rocket (six parts)
+  suborbital.json           — small probe/rocket
+  neris_explorer.json       — orbital stack with chute and landing legs
+  aors_complete.json        — Aster Orbital Research Station
+  docking_tug.json          — six-part S visiting craft with balanced RCS blocks
+  module_launcher.json      — X container carrier with existing Forge boosters
+
+AORS: 44 parts, 193,850 kg, 96 m repeated truss, eight solar wings, six radiators,
+five S docking ports. Standardized pressure spine is about 34 m. The orbital
+preset is 120 km altitude, 51.6° inclination, RAAN 25°, argument of latitude 0°.
+Its initial fixed inertial attitude faces the panels toward the Sun; there is no
+automatic orbit/altitude lock. Eight wings provide up to 144 kW, distributed node
+batteries total 360 MJ, and baseline demand is about 38.2 kW.
+
+data/scenarios/aors_complete_orbit.json and aors_docking_test.json are explicitly
+initialized presets. The latter starts the tug approximately 650 m away with
+offset/misalignment. They do not prove a launch or an assembled-in-flight history.
+
+6. ARCHITECTURE — EXTEND THESE SYSTEMS
+
+CraftDesign -> CraftCodec -> PartGraph/PartInstance -> RocketState : FlightBody.
+One integrated rigid body per connected tree; splitting creates independent
+bodies. Visual Node3Ds never own authoritative fuel, gravity or orbital state.
+There is no production SpacecraftState subclass; the concrete class is RocketState.
+
+Key paths:
+  data/parts/catalog.json                 original 21 part definitions
+  data/parts/standard_parts.json          ten reusable station/standard definitions
+  definitions/part_definition.gd          dimensions, sockets, shapes, module config
+  definitions/craft_design.gd             pure construction recipe
+  simulation/parts/part_catalog.gd        loads BOTH catalog JSON files
+  simulation/parts/part_instance.gd       independent runtime part/module ownership
+  simulation/parts/part_module_state.gd   composed module state
+  simulation/craft_builder.gd            construction operations and geometry checks
+  simulation/craft_codec.gd              JSON load/save and validation
+  simulation/mass_properties.gd          mass, COM, full tensor and cached updates
+  simulation/fuel_network.gd             propellant access/consumption/thrust
+  simulation/rocket_state.gd             assembly dynamics and graph splitting
+  simulation/flight_session.gd           shared clock, all bodies, coast/switching
+  simulation/spacecraft_registry.gd      stable IDs and component lifecycle
+  simulation/docking_system.gd           admission, spring impulses, merge/undock
+  simulation/rcs_system.gd               actual nozzle forces and monopropellant
+  simulation/electric_power.gd           watts/joules, eclipse and priority loads
+  simulation/flight_save.gd              separate live-session save format
+  simulation/orbital_scenario.gd         initialized AORS/tug scenario loading
+  simulation/celestial_system.gd         primary/Moon ephemerides and SOI policy
+  simulation/surface_query.gd            shared terrain/ocean physical authority
+  game/main.gd                          orchestration, inputs, preset loading
+  game/rocket_visual.gd                  generic procedural spacecraft meshes
+  game/station_part_visual.gd            reusable container/truss/panel/port visuals
+  ui/assembly_editor.gd                  builder and its prebuilt load list
+  ui/flight_hud.gd                       flight UI and launch-vehicle menu list
+  ui/station_operations.gd               scenario buttons, vessels and docking UI
+  ui/orbit_map.gd                        orbital paths and vessel selection
+
+Absolute positions/velocities are DVec3 scalar doubles in the Aster inertial frame.
+Convert to Godot Vector3 only after subtracting a nearby origin. Craft-local parts
+use metres and quaternions [x,y,z,w], with +Y along cylinder/engine forward axes.
+Station convention: +X starboard, +Y forward, +Z designated zenith/panel face.
+Attitude is not automatically kept in a planet-relative frame.
+
+Standard connected graphs are trees. Avoid structural loops. Engine forces act
+at actual locations; unequal thrust and offset RCS can create torque. Shape/inertia
+support includes cylinders and boxes. Power energy adds no propellant mass.
+Persistent vessels survive the 200 km cleanup rule; only DEBRIS is culled that way.
+
+7. REUSABLE PART VOCABULARY
+
+Family    Hull diameter    Container length    Definition
+S         1.2 m            2 m                 container.s
+M         2.0 m            4 m                 container.m
+X         3.0 m            6 m                 container.x
+XL        4.0 m            8 m                 container.xl
+
+Other new reusable definitions:
+  structure.node.xl   structure.truss.x   power.solar.xl
+  power.radiator.x    docking.port.s      utility.rcs.s
+
+Useful existing IDs:
+  command.capsule, command.probe
+  tank.small, tank.medium, tank.lumen, tank.forge
+  engine.spark, engine.field, engine.lumen, engine.mote, engine.forge
+  decoupler.small, decoupler.stack, decoupler.radial, structure.adapter
+  aero.nose, aero.fin, aero.control
+  utility.wheel, utility.parachute, utility.leg
+
+Reuse the same container definition for laboratory, cargo, habitation or service
+roles where appropriate. Part instance IDs/names distinguish locations. A socket's
+size field is a RADIUS/mating convention, not the S/M/X/XL diameter number.
+Read the actual node definitions; hubs have distinct hull and smaller service
+interfaces. Use supported sockets and adapters rather than scaling meshes alone.
+
+8. HOW TO CREATE A SPACECRAFT FROM A PROMPT
+
+1) Read the two part catalogs and choose reusable parts. Use the closest existing
+   craft as a structural example. Keep dimensions/mass/propellant explicit.
+2) Create a new data/craft/<name>.json with unique instance/connection IDs.
+3) Root at a command-capable part. Compute transforms so sockets coincide and
+   outward normals oppose. Keep the graph connected, acyclic and non-overlapping.
+4) Add explicit stage actions: ignite, shutdown, decouple, deploy. Crossfeed flags
+   control propellant access. Electrical connections have separate crossfeed rules.
+5) For symmetry, save both instance symmetry_group and the group members list;
+   radial connections store radial_angle in radians.
+6) Make it reachable in the game: add to the editor's prebuilt load list and,
+   when useful, the launch-menu selector. For an orbital preset, wire an explicit
+   scenario button and loader. Check current code rather than assuming folders
+   are auto-discovered; these UI lists are currently explicit.
+7) Run CraftCodec validation and one relevant load/short behavior check. Stop
+   once the intended first playable version works; let the user test with F5.
+8) Report where it is in the menu, controls, expected behavior and known design
+   limitations. Export only when explicitly requested.
+
+Construction JSON shape (use real catalog IDs and actual transforms):
+{
+  "schema_version": 1,
+  "catalog_version": 1,
+  "name": "My spacecraft",
+  "root_part_id": "command",
+  "aero_model": "parts",
+  "parts": [{
+    "id": "command", "definition_id": "command.probe",
+    "position_m": [0,0,0], "rotation_xyzw": [0,0,0,1],
+    "settings": {}
+  }],
+  "connections": [], "stages": [], "symmetry_groups": []
+}
+
+Connection example:
+  {"id":"joint_1","a":["command","bottom"],
+   "b":["tank","top"],"crossfeed":true}
+Stage example:
+  {"id":"ignition","actions":[{"part_id":"engine","action":"ignite"}]}
+
+Existing per-part settings include fuel_fill, oxidizer_fill, thrust_limit,
+gimbal_enabled, wheel_enabled, leg_deployed, battery_capacity_j and electric_load_w.
+Confirm supported names in PartInstance and CraftBuilder; do not invent an ignored
+setting and describe it as implemented. New visual types must be handled in the
+procedural visual code; arbitrary model filenames are not currently a part format.
+
+tools/generate_station.py GENERATES/OVERWRITES standard_parts.json, AORS, tug,
+module-launcher craft and both station scenarios. For changes to those generated
+assets, update the generator too. For a new unrelated craft, create its own recipe;
+there is no need to regenerate the station. Do not run the generator over bespoke
+manual edits without reconciling the source of those edits first.
+
+OrbitalScenario currently uses station/visitor roles and AORS/tug IDs/port names.
+Generalize or configure those references for a new orbital preset; changing only
+the JSON filename does not necessarily create a complete generic scenario.
+
+9. PLAY CONTROLS
+
+Editor F5 runs the project. In the running flight, F5 quicksaves and F9 loads;
+on-screen Save/Load buttons avoid shortcut focus conflicts.
+W/S pitch; A/D yaw; Q/E roll. Shift/Ctrl throttle, Z/X full/cut, Space next stage.
+T SAS off, H hold, P/R prograde/retrograde, 1/2 radial, 3/4 normal.
+Right-drag/wheel camera, comma/period warp, M map, Esc pause.
+Map F fits, Tab changes focus, B system view; click vessel target, double-click switch.
+F6/Shift+F6 next/previous vessel; F7 vessel/target/port list.
+V RCS toggle; I/K fore/aft, J/L left/right, U/O up/down (craft-local).
+N docking armed/safe; G undocks the first available docking edge.
+C cycles craft/both-vessel/target-port camera.
+F1 handbook, F3 diagnostics, F4 structural overlay, click part to inspect.
+I also retains the older close-inspector shortcut: a minor UI conflict to tidy later.
+
+Docking admission: <=0.12 m plane separation, <=0.10 m lateral offset,
+<=0.25 m/s relative speed, <=7.5 degrees axis error, low relative angular speed.
+Release RCS and conflicting SAS during soft capture. Hard docking follows stable
+spring alignment; no automatic long-distance alignment/approach is implemented.
+
+10. VALIDATION STATUS AND PRACTICAL LIMITS
+
+Before AORS, the six-phase upgrade had passing individual runs for the numerical,
+vehicle, editor, terrain/water, visual and lunar suites. Physical launch-to-orbit,
+lunar capture/full orbit/escape/Aster return and a separate lunar landing were
+demonstrated. See docs/VALIDATION.md for exact scope and historical results.
+
+AORS was intentionally released after LIMITED checks: validate_station.gd,
+validate_station_gameplay.gd, validate_vehicle.gd and validate_modules.gd passed.
+The rendered station test uses a labelled near-port fixture for capture, not a
+complete 650 m rendezvous. The module carrier's full ascent and a complete station
+assembled through multiple launches have not been qualified. Later small changes
+were imported/exported successfully; do not treat old passing logs as proof of
+all future modifications.
+
+Known limitations:
+- Large atmospheric craft remain slow in GDScript. Earlier 100-part air fixture
+  measured about 20 ms per 1/120 s substep, and 300 parts about 72 ms. Those were
+  tank-chain stress fixtures, not an AORS frame-rate guarantee.
+- No thermal destruction, crew, EVA, robotic arm, articulated panel tracking,
+  flexible joints, structural loops, tank slosh, full N-body gravity or maneuver nodes.
+- Radiators/airlocks are physical and visual; thermal/EVA functions are deferred.
+- Modern solar/joule-battery buses work. Older craft retain idealized wheel power
+  unless explicitly configured. Electrical bus evaluation is not fully optimized.
+- G undocks the first docking connection; choosing a specific docked branch needs UI.
+- Full flight persistence exists, but save migration and malformed-save robustness
+  deserve further work before promising broad version compatibility.
+- Terrain clipmaps rebuild during recentring; rapid low flight can show detail lag.
+- Coast warp holds attitude. Predictions omit future burns/drag and have finite limits.
+- AORS UI is a playtest: some overlays/shortcuts overlap, and camera/targeting need polish.
+- Vulkan was checked on the development Intel GPU; other hardware remains unqualified.
+
+11. PORTABLE CHECKS AND TOOLING
+
+No build is needed for ordinary work. Use F5 first. For a small data change, inspect
+the recipe and call CraftCodec validation; add a short focused script only if useful.
+
+Portable Windows test runner (selected existing suites, no exports):
+  .\tests\run_tests.ps1 -Godot 'D:\Apps\Godot.exe' -Only @('validate_vehicle','validate_modules')
+
+Station scripts exist separately; the older runner's list does not yet enumerate
+them. In a disposable source copy after import, run:
+  godot --headless --editor --path . --import --quit
+  godot --headless --path . --script tests/validate_station.gd
+  godot --audio-driver Dummy --rendering-method mobile --rendering-driver vulkan --path . --script tests/validate_station_gameplay.gd
+
+tools/check_development.ps1 currently hard-codes the OLD PC's Godot executable:
+  C:\Users\m.vetere\Desktop\Godot_v4.6.1-stable_win64.exe
+Change/parameterize that path before using it on the new PC. The other runner
+already accepts -Godot. Avoid concurrent imports into the same sandbox directory.
+
+IMPORTANT: isolated source copies still share user:// if they use the same app
+name. validate_station_gameplay.gd calls the normal quicksave and can overwrite
+the user's quicksave. Back it up or isolate the test app's user-data location.
+
+Build scripts are optional and require explicit user request:
+  python tools/build_windows.py --godot <Godot 4.6.1 editor path>
+  python tools/build_linux.py --godot <Godot 4.6.1 editor path>
+They import isolated source copies and use verified export templates. build/ and
+.godot/ are ignored. Existing exported packages are snapshots, not current source.
+
+12. READING ORDER FOR THE NEXT CODING AGENT
+
+Start with this file, then README.md and the newest sections at the TOP of
+docs/DEVELOPMENT_JOURNAL.md and docs/VALIDATION.md. docs/UPGRADE_REPORT.md describes
+the pre-station six-phase upgrade; parts of its limits are historical. The code
+and newer AORS journal entries supersede old claims that power/flight saves or
+vessel switching are absent. docs/AORS_BRIEF.md preserves the long station brief;
+the user's subsequent reuse/quick-release/no-automatic-build preferences prevail.
+
+Then read both catalogs, the closest craft JSON, CraftCodec/CraftBuilder,
+PartInstance, RocketState and the relevant UI registration before editing.
+
+13. COPY THIS INTO A NEW CODING-AGENT CONVERSATION
+
+We are continuing the existing Godot Space Program project in this repository.
+Read HANDOFF.txt, README.md and the latest journal/validation entries first.
+Confirm the checkout includes the current part system and AORS files. Clone or
+pull the latest main; the older d101915 revision predates the expanded source.
+
+I test by pressing F5 in Godot. Do not build/export binaries unless I explicitly
+ask. Reuse existing parts and S/M/X/XL families. Add only necessary reusable parts.
+Prioritize a playable first version with essential checks; I will handle some
+physical design problems in play. Preserve actual mass, forces and momentum.
+Make the craft selectable in the editor/menu, tell me how to try it, and identify
+known limitations. Do not repeatedly ask approval for routine implementation.
+
+My next spacecraft request:
+[Describe its role, approximate size/payload, propulsion, launch or prebuilt-orbit
+start, docking/landing needs, and appearance. Implement it in this project.]
+
+Example:
+Create a reusable M cargo tug using existing parts, S docking interfaces and
+balanced RCS. It should carry a standard M container to AORS and have adequate
+electrical storage for a rendezvous. Add it as an editor prebuilt and a clearly
+labelled orbital playtest if needed. Keep the first version simple. No export.

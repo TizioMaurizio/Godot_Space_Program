@@ -1,0 +1,1356 @@
+[
+  {
+    "id": "container.s",
+    "display_name": "S Multipurpose Container",
+    "category": "Containers",
+    "size_class": "S",
+    "dry_mass": 800,
+    "length": 2,
+    "radius": 0.6,
+    "visual": "habitat",
+    "nodes": {
+      "top": {
+        "position": [
+          0,
+          1.0,
+          0
+        ],
+        "normal": [
+          0,
+          1,
+          0
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "bottom": {
+        "position": [
+          0,
+          -1.0,
+          0
+        ],
+        "normal": [
+          0,
+          -1,
+          0
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "radial": {
+        "position": [
+          0.6,
+          0,
+          0
+        ],
+        "normal": [
+          1,
+          0,
+          0
+        ],
+        "size": 0,
+        "capacity": 8
+      },
+      "surface": {
+        "position": [
+          -0.6,
+          0,
+          0
+        ],
+        "normal": [
+          -1,
+          0,
+          0
+        ],
+        "size": 0,
+        "capacity": 1
+      },
+      "dock_top": {
+        "position": [
+          0,
+          1.0,
+          0
+        ],
+        "normal": [
+          0,
+          1,
+          0
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock_bottom": {
+        "position": [
+          0,
+          -1.0,
+          0
+        ],
+        "normal": [
+          0,
+          -1,
+          0
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock_port": {
+        "position": [
+          -0.6,
+          0,
+          0
+        ],
+        "normal": [
+          -1,
+          0,
+          0
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock_starboard": {
+        "position": [
+          0.6,
+          0,
+          0
+        ],
+        "normal": [
+          1,
+          0,
+          0
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock_zenith": {
+        "position": [
+          0,
+          0,
+          0.6
+        ],
+        "normal": [
+          0,
+          0,
+          1
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock_nadir": {
+        "position": [
+          0,
+          0,
+          -0.6
+        ],
+        "normal": [
+          0,
+          0,
+          -1
+        ],
+        "size": 0.6,
+        "capacity": 1
+      }
+    },
+    "modules": {
+      "electric_load": {
+        "critical_w": 200,
+        "optional_w": 3000
+      }
+    },
+    "description": "Reusable pressurized/cargo shell; contents, crew, EVA and thermal simulation are not modeled."
+  },
+  {
+    "id": "container.m",
+    "display_name": "M Multipurpose Container",
+    "category": "Containers",
+    "size_class": "M",
+    "dry_mass": 2500,
+    "length": 4,
+    "radius": 1.0,
+    "visual": "habitat",
+    "nodes": {
+      "top": {
+        "position": [
+          0,
+          2.0,
+          0
+        ],
+        "normal": [
+          0,
+          1,
+          0
+        ],
+        "size": 1.0,
+        "capacity": 1
+      },
+      "bottom": {
+        "position": [
+          0,
+          -2.0,
+          0
+        ],
+        "normal": [
+          0,
+          -1,
+          0
+        ],
+        "size": 1.0,
+        "capacity": 1
+      },
+      "radial": {
+        "position": [
+          1.0,
+          0,
+          0
+        ],
+        "normal": [
+          1,
+          0,
+          0
+        ],
+        "size": 0,
+        "capacity": 8
+      },
+      "surface": {
+        "position": [
+          -1.0,
+          0,
+          0
+        ],
+        "normal": [
+          -1,
+          0,
+          0
+        ],
+        "size": 0,
+        "capacity": 1
+      },
+      "dock_top": {
+        "position": [
+          0,
+          2.0,
+          0
+        ],
+        "normal": [
+          0,
+          1,
+          0
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock_bottom": {
+        "position": [
+          0,
+          -2.0,
+          0
+        ],
+        "normal": [
+          0,
+          -1,
+          0
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock_port": {
+        "position": [
+          -1.0,
+          0,
+          0
+        ],
+        "normal": [
+          -1,
+          0,
+          0
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock_starboard": {
+        "position": [
+          1.0,
+          0,
+          0
+        ],
+        "normal": [
+          1,
+          0,
+          0
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock_zenith": {
+        "position": [
+          0,
+          0,
+          1.0
+        ],
+        "normal": [
+          0,
+          0,
+          1
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock_nadir": {
+        "position": [
+          0,
+          0,
+          -1.0
+        ],
+        "normal": [
+          0,
+          0,
+          -1
+        ],
+        "size": 0.6,
+        "capacity": 1
+      }
+    },
+    "modules": {
+      "electric_load": {
+        "critical_w": 0,
+        "optional_w": 3000
+      }
+    },
+    "description": "Reusable pressurized/cargo shell; contents, crew, EVA and thermal simulation are not modeled."
+  },
+  {
+    "id": "container.x",
+    "display_name": "X Multipurpose Container",
+    "category": "Containers",
+    "size_class": "X",
+    "dry_mass": 9000,
+    "length": 6,
+    "radius": 1.5,
+    "visual": "habitat",
+    "nodes": {
+      "top": {
+        "position": [
+          0,
+          3.0,
+          0
+        ],
+        "normal": [
+          0,
+          1,
+          0
+        ],
+        "size": 1.5,
+        "capacity": 1
+      },
+      "bottom": {
+        "position": [
+          0,
+          -3.0,
+          0
+        ],
+        "normal": [
+          0,
+          -1,
+          0
+        ],
+        "size": 1.5,
+        "capacity": 1
+      },
+      "radial": {
+        "position": [
+          1.5,
+          0,
+          0
+        ],
+        "normal": [
+          1,
+          0,
+          0
+        ],
+        "size": 0,
+        "capacity": 8
+      },
+      "surface": {
+        "position": [
+          -1.5,
+          0,
+          0
+        ],
+        "normal": [
+          -1,
+          0,
+          0
+        ],
+        "size": 0,
+        "capacity": 1
+      },
+      "dock_top": {
+        "position": [
+          0,
+          3.0,
+          0
+        ],
+        "normal": [
+          0,
+          1,
+          0
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock_bottom": {
+        "position": [
+          0,
+          -3.0,
+          0
+        ],
+        "normal": [
+          0,
+          -1,
+          0
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock_port": {
+        "position": [
+          -1.5,
+          0,
+          0
+        ],
+        "normal": [
+          -1,
+          0,
+          0
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock_starboard": {
+        "position": [
+          1.5,
+          0,
+          0
+        ],
+        "normal": [
+          1,
+          0,
+          0
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock_zenith": {
+        "position": [
+          0,
+          0,
+          1.5
+        ],
+        "normal": [
+          0,
+          0,
+          1
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock_nadir": {
+        "position": [
+          0,
+          0,
+          -1.5
+        ],
+        "normal": [
+          0,
+          0,
+          -1
+        ],
+        "size": 0.6,
+        "capacity": 1
+      }
+    },
+    "modules": {
+      "electric_load": {
+        "critical_w": 0,
+        "optional_w": 3000
+      }
+    },
+    "description": "Reusable pressurized/cargo shell; contents, crew, EVA and thermal simulation are not modeled."
+  },
+  {
+    "id": "container.xl",
+    "display_name": "XL Multipurpose Container",
+    "category": "Containers",
+    "size_class": "XL",
+    "dry_mass": 13500,
+    "length": 8,
+    "radius": 2.0,
+    "visual": "habitat",
+    "nodes": {
+      "top": {
+        "position": [
+          0,
+          4.0,
+          0
+        ],
+        "normal": [
+          0,
+          1,
+          0
+        ],
+        "size": 2.0,
+        "capacity": 1
+      },
+      "bottom": {
+        "position": [
+          0,
+          -4.0,
+          0
+        ],
+        "normal": [
+          0,
+          -1,
+          0
+        ],
+        "size": 2.0,
+        "capacity": 1
+      },
+      "radial": {
+        "position": [
+          2.0,
+          0,
+          0
+        ],
+        "normal": [
+          1,
+          0,
+          0
+        ],
+        "size": 0,
+        "capacity": 8
+      },
+      "surface": {
+        "position": [
+          -2.0,
+          0,
+          0
+        ],
+        "normal": [
+          -1,
+          0,
+          0
+        ],
+        "size": 0,
+        "capacity": 1
+      },
+      "dock_top": {
+        "position": [
+          0,
+          4.0,
+          0
+        ],
+        "normal": [
+          0,
+          1,
+          0
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock_bottom": {
+        "position": [
+          0,
+          -4.0,
+          0
+        ],
+        "normal": [
+          0,
+          -1,
+          0
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock_port": {
+        "position": [
+          -2.0,
+          0,
+          0
+        ],
+        "normal": [
+          -1,
+          0,
+          0
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock_starboard": {
+        "position": [
+          2.0,
+          0,
+          0
+        ],
+        "normal": [
+          1,
+          0,
+          0
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock_zenith": {
+        "position": [
+          0,
+          0,
+          2.0
+        ],
+        "normal": [
+          0,
+          0,
+          1
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock_nadir": {
+        "position": [
+          0,
+          0,
+          -2.0
+        ],
+        "normal": [
+          0,
+          0,
+          -1
+        ],
+        "size": 0.6,
+        "capacity": 1
+      }
+    },
+    "modules": {
+      "electric_load": {
+        "critical_w": 0,
+        "optional_w": 6000
+      }
+    },
+    "description": "Reusable pressurized/cargo shell; contents, crew, EVA and thermal simulation are not modeled."
+  },
+  {
+    "id": "structure.node.xl",
+    "display_name": "XL Six-way Node",
+    "category": "Structural",
+    "size_class": "XL",
+    "dry_mass": 13500,
+    "length": 6,
+    "radius": 2,
+    "visual": "node",
+    "nodes": {
+      "top": {
+        "position": [
+          0,
+          3.0,
+          0
+        ],
+        "normal": [
+          0,
+          1,
+          0
+        ],
+        "size": 2,
+        "capacity": 1
+      },
+      "bottom": {
+        "position": [
+          0,
+          -3.0,
+          0
+        ],
+        "normal": [
+          0,
+          -1,
+          0
+        ],
+        "size": 2,
+        "capacity": 1
+      },
+      "radial": {
+        "position": [
+          2,
+          0,
+          0
+        ],
+        "normal": [
+          1,
+          0,
+          0
+        ],
+        "size": 0,
+        "capacity": 8
+      },
+      "surface": {
+        "position": [
+          -2,
+          0,
+          0
+        ],
+        "normal": [
+          -1,
+          0,
+          0
+        ],
+        "size": 0,
+        "capacity": 1
+      },
+      "dock_top": {
+        "position": [
+          0,
+          3.0,
+          0
+        ],
+        "normal": [
+          0,
+          1,
+          0
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock_bottom": {
+        "position": [
+          0,
+          -3.0,
+          0
+        ],
+        "normal": [
+          0,
+          -1,
+          0
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock_port": {
+        "position": [
+          -2,
+          0,
+          0
+        ],
+        "normal": [
+          -1,
+          0,
+          0
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock_starboard": {
+        "position": [
+          2,
+          0,
+          0
+        ],
+        "normal": [
+          1,
+          0,
+          0
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock_zenith": {
+        "position": [
+          0,
+          0,
+          2
+        ],
+        "normal": [
+          0,
+          0,
+          1
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock_nadir": {
+        "position": [
+          0,
+          0,
+          -2
+        ],
+        "normal": [
+          0,
+          0,
+          -1
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "port": {
+        "position": [
+          -2,
+          0,
+          0
+        ],
+        "normal": [
+          -1,
+          0,
+          0
+        ],
+        "size": 2,
+        "capacity": 1
+      },
+      "starboard": {
+        "position": [
+          2,
+          0,
+          0
+        ],
+        "normal": [
+          1,
+          0,
+          0
+        ],
+        "size": 2,
+        "capacity": 1
+      },
+      "zenith": {
+        "position": [
+          0,
+          0,
+          2
+        ],
+        "normal": [
+          0,
+          0,
+          1
+        ],
+        "size": 2,
+        "capacity": 1
+      },
+      "nadir": {
+        "position": [
+          0,
+          0,
+          -2
+        ],
+        "normal": [
+          0,
+          0,
+          -1
+        ],
+        "size": 2,
+        "capacity": 1
+      },
+      "port_x": {
+        "position": [
+          -2,
+          0,
+          0
+        ],
+        "normal": [
+          -1,
+          0,
+          0
+        ],
+        "size": 1.5,
+        "capacity": 1
+      },
+      "starboard_x": {
+        "position": [
+          2,
+          0,
+          0
+        ],
+        "normal": [
+          1,
+          0,
+          0
+        ],
+        "size": 1.5,
+        "capacity": 1
+      },
+      "zenith_m": {
+        "position": [
+          0,
+          0,
+          2
+        ],
+        "normal": [
+          0,
+          0,
+          1
+        ],
+        "size": 1,
+        "capacity": 1
+      }
+    },
+    "modules": {
+      "command": {},
+      "wheel": {
+        "torque": 2000000
+      },
+      "battery": {
+        "capacity_j": 120000000
+      },
+      "electric_load": {
+        "critical_w": 1500,
+        "optional_w": 1000
+      }
+    }
+  },
+  {
+    "id": "structure.truss.x",
+    "display_name": "X Lattice Truss / 12 m",
+    "category": "Structural",
+    "size_class": "X",
+    "dry_mass": 8000,
+    "length": 12,
+    "radius": 1.5,
+    "box_size": [
+      3,
+      12,
+      3
+    ],
+    "visual": "truss",
+    "nodes": {
+      "top": {
+        "position": [
+          0,
+          6.0,
+          0
+        ],
+        "normal": [
+          0,
+          1,
+          0
+        ],
+        "size": 1.5,
+        "capacity": 1
+      },
+      "bottom": {
+        "position": [
+          0,
+          -6.0,
+          0
+        ],
+        "normal": [
+          0,
+          -1,
+          0
+        ],
+        "size": 1.5,
+        "capacity": 1
+      },
+      "radial": {
+        "position": [
+          1.5,
+          0,
+          0
+        ],
+        "normal": [
+          1,
+          0,
+          0
+        ],
+        "size": 0,
+        "capacity": 8
+      },
+      "surface": {
+        "position": [
+          -1.5,
+          0,
+          0
+        ],
+        "normal": [
+          -1,
+          0,
+          0
+        ],
+        "size": 0,
+        "capacity": 1
+      },
+      "dock_top": {
+        "position": [
+          0,
+          6.0,
+          0
+        ],
+        "normal": [
+          0,
+          1,
+          0
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock_bottom": {
+        "position": [
+          0,
+          -6.0,
+          0
+        ],
+        "normal": [
+          0,
+          -1,
+          0
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock_port": {
+        "position": [
+          -1.5,
+          0,
+          0
+        ],
+        "normal": [
+          -1,
+          0,
+          0
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock_starboard": {
+        "position": [
+          1.5,
+          0,
+          0
+        ],
+        "normal": [
+          1,
+          0,
+          0
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock_zenith": {
+        "position": [
+          0,
+          0,
+          1.5
+        ],
+        "normal": [
+          0,
+          0,
+          1
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock_nadir": {
+        "position": [
+          0,
+          0,
+          -1.5
+        ],
+        "normal": [
+          0,
+          0,
+          -1
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "keel": {
+        "position": [
+          0,
+          0,
+          -1.5
+        ],
+        "normal": [
+          0,
+          0,
+          -1
+        ],
+        "size": 1,
+        "capacity": 1
+      },
+      "wing_front": {
+        "position": [
+          -1.5,
+          0,
+          1
+        ],
+        "normal": [
+          -1,
+          0,
+          0
+        ],
+        "size": 1,
+        "capacity": 1
+      },
+      "wing_aft": {
+        "position": [
+          1.5,
+          0,
+          1
+        ],
+        "normal": [
+          1,
+          0,
+          0
+        ],
+        "size": 1,
+        "capacity": 1
+      },
+      "radiator_front": {
+        "position": [
+          -1.5,
+          0,
+          -1
+        ],
+        "normal": [
+          -1,
+          0,
+          0
+        ],
+        "size": 1,
+        "capacity": 1
+      },
+      "radiator_aft": {
+        "position": [
+          1.5,
+          0,
+          -1
+        ],
+        "normal": [
+          1,
+          0,
+          0
+        ],
+        "size": 1,
+        "capacity": 1
+      }
+    },
+    "bending_strength": 4000000
+  },
+  {
+    "id": "power.solar.xl",
+    "display_name": "XL Solar Wing",
+    "category": "Power",
+    "size_class": "XL",
+    "dry_mass": 1500,
+    "length": 34,
+    "radius": 5.5,
+    "box_size": [
+      11,
+      34,
+      0.3
+    ],
+    "visual": "solar",
+    "nodes": {
+      "top": {
+        "position": [
+          0,
+          17.0,
+          0
+        ],
+        "normal": [
+          0,
+          1,
+          0
+        ],
+        "size": 1,
+        "capacity": 1
+      },
+      "bottom": {
+        "position": [
+          0,
+          -17.0,
+          0
+        ],
+        "normal": [
+          0,
+          -1,
+          0
+        ],
+        "size": 1,
+        "capacity": 1
+      }
+    },
+    "modules": {
+      "solar": {
+        "power_w": 18000,
+        "normal": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    "strength": 20000,
+    "bending_strength": 20000,
+    "crash_speed": 3,
+    "description": "Fixed deployed wing; solar generation is functional."
+  },
+  {
+    "id": "power.radiator.x",
+    "display_name": "X Radiator Panel",
+    "category": "Power",
+    "size_class": "X",
+    "dry_mass": 600,
+    "length": 10,
+    "radius": 1.5,
+    "box_size": [
+      3,
+      10,
+      0.2
+    ],
+    "visual": "radiator",
+    "nodes": {
+      "top": {
+        "position": [
+          0,
+          5.0,
+          0
+        ],
+        "normal": [
+          0,
+          1,
+          0
+        ],
+        "size": 1,
+        "capacity": 1
+      },
+      "bottom": {
+        "position": [
+          0,
+          -5.0,
+          0
+        ],
+        "normal": [
+          0,
+          -1,
+          0
+        ],
+        "size": 1,
+        "capacity": 1
+      }
+    },
+    "modules": {},
+    "strength": 20000,
+    "bending_strength": 20000,
+    "crash_speed": 3,
+    "description": "Physical radiator; thermal simulation is deferred."
+  },
+  {
+    "id": "docking.port.s",
+    "display_name": "S Docking Port / 1.2 m",
+    "category": "Docking",
+    "size_class": "S",
+    "dry_mass": 250,
+    "length": 0.8,
+    "radius": 0.6,
+    "visual": "docking",
+    "nodes": {
+      "bottom": {
+        "position": [
+          0,
+          -0.4,
+          0
+        ],
+        "normal": [
+          0,
+          -1,
+          0
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "dock": {
+        "position": [
+          0,
+          0.4,
+          0
+        ],
+        "normal": [
+          0,
+          1,
+          0
+        ],
+        "size": 0.6,
+        "capacity": 1
+      }
+    },
+    "modules": {
+      "docking": {
+        "type": "S",
+        "distance": 0.12,
+        "lateral": 0.1,
+        "speed": 0.25,
+        "angle_deg": 7.5
+      }
+    },
+    "strength": 150000,
+    "bending_strength": 250000,
+    "crash_speed": 4
+  },
+  {
+    "id": "utility.rcs.s",
+    "display_name": "S RCS Block",
+    "category": "Utility",
+    "size_class": "S",
+    "dry_mass": 60,
+    "length": 0.8,
+    "radius": 0.4,
+    "box_size": [
+      0.8,
+      0.8,
+      0.8
+    ],
+    "visual": "rcs",
+    "nodes": {
+      "surface": {
+        "position": [
+          -0.4,
+          0,
+          0
+        ],
+        "normal": [
+          -1,
+          0,
+          0
+        ],
+        "size": 0,
+        "capacity": 1
+      },
+      "top": {
+        "position": [
+          0,
+          0.4,
+          0
+        ],
+        "normal": [
+          0,
+          1,
+          0
+        ],
+        "size": 0.6,
+        "capacity": 1
+      },
+      "bottom": {
+        "position": [
+          0,
+          -0.4,
+          0
+        ],
+        "normal": [
+          0,
+          -1,
+          0
+        ],
+        "size": 0.6,
+        "capacity": 1
+      }
+    },
+    "modules": {
+      "rcs": {
+        "thrust": 1000,
+        "isp": 240,
+        "propellant": 100
+      }
+    }
+  }
+]

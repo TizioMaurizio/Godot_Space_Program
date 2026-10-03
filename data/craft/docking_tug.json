@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "catalog_version": 1,
+  "name": "S Orbital Docking Tug",
+  "root_part_id": "tug-core",
+  "parts": [
+    {
+      "id": "tug-core",
+      "definition_id": "command.probe",
+      "position_m": [
+        0,
+        0,
+        0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {
+        "battery_capacity_j": 2000000,
+        "electric_load_w": 100
+      }
+    },
+    {
+      "id": "tug-dock",
+      "definition_id": "docking.port.s",
+      "position_m": [
+        0.0,
+        0.65,
+        0.0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "tug-tank",
+      "definition_id": "tank.small",
+      "position_m": [
+        0.0,
+        -1.25,
+        0.0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "tug-engine",
+      "definition_id": "engine.mote",
+      "position_m": [
+        0.0,
+        -2.65,
+        0.0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "tug-rcs",
+      "definition_id": "utility.rcs.s",
+      "position_m": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "tug-rcs-opposite",
+      "definition_id": "utility.rcs.s",
+      "position_m": [
+        -1,
+        0,
+        0
+      ],
+      "rotation_xyzw": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "settings": {}
+    }
+  ],
+  "connections": [
+    {
+      "id": "joint_1",
+      "a": [
+        "tug-core",
+        "top"
+      ],
+      "b": [
+        "tug-dock",
+        "bottom"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_2",
+      "a": [
+        "tug-core",
+        "bottom"
+      ],
+      "b": [
+        "tug-tank",
+        "top"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_3",
+      "a": [
+        "tug-tank",
+        "bottom"
+      ],
+      "b": [
+        "tug-engine",
+        "top"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_4",
+      "a": [
+        "tug-core",
+        "radial"
+      ],
+      "b": [
+        "tug-rcs",
+        "surface"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_5",
+      "a": [
+        "tug-core",
+        "radial"
+      ],
+      "b": [
+        "tug-rcs-opposite",
+        "surface"
+      ],
+      "crossfeed": true,
+      "radial_angle": 3.141592653589793
+    }
+  ],
+  "stages": [
+    {
+      "id": "engine",
+      "actions": [
+        {
+          "part_id": "tug-engine",
+          "action": "ignite"
+        }
+      ]
+    }
+  ],
+  "symmetry_groups": [],
+  "aero_model": "parts"
+}

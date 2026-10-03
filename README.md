@@ -1,107 +1,115 @@
-# Aster Flight Lab
+# Godot Space Program
 
-A playable, original Godot 4.x launch-to-orbit prototype. Choose a predefined two-stage rocket, fly through a rotating atmosphere, separate the booster and establish an orbit using Newtonian physics. No rocket editor or orbit mode.
+Moving to another PC or continuing with a new coding agent? Read [HANDOFF.txt](HANDOFF.txt) for current source-transfer status, setup, architecture, standard parts and a reusable spacecraft prompt. Ordinary iteration uses **F5 in Godot**; export builds are made only when explicitly requested.
 
-## Play
+An original, playable Godot 4.x spacecraft construction and orbital-flight simulation. Build a real part graph, launch through Aster's rotating atmosphere, stage, reach orbit, encounter the moon Neris, land or return. Forces, mass, torque, joint loads and water displacement determine what happens; entering an orbit never changes the physics.
 
-Open `project.godot` in **Godot 4.6.1** (the tested version), then press **F5**. No downloads, external assets, plugins or special double-precision engine build are required. The Compatibility renderer supports ordinary desktop hardware.
+Tested with **Godot 4.6.1**, Compatibility/OpenGL renderer. Open `project.godot` and press **F5**. No external art, plugins or double-precision engine build is required. Choose Orbital Test Vehicle, Basic Suborbital Rocket, Neris Explorer, or **Vehicle Assembly**. The [upgrade report](docs/UPGRADE_REPORT.md), [validation record](docs/VALIDATION.md), [journal](docs/DEVELOPMENT_JOURNAL.md) and [approved architecture](docs/IMPLEMENTATION_PLAN.md) describe implementation and evidence.
 
-Select **Orbital Test Vehicle → Go to launchpad** (or press Enter). Press **Z**, then **Space** to launch. **F1** opens the flight handbook; **F3** opens the physics telemetry overlay. Relaunch and vehicle selection are always available at the top right.
+## AORS station playtest
 
-If an editor left open during an external import reports **Unrecognized UID** for newly added files, restart the **Godot editor itself**, then press F5. Restarting only the running game does not refresh the editor's in-memory resource registry. Keep the `.gd.uid` and `.gdshader.uid` files with the source files.
+On the main menu choose **AORS IN ORBIT / PREBUILT**, or **AORS + DOCKING TUG / PREBUILT**. The station is explicitly initialized at 120 km altitude and 51.6° inclination. Its 44 physical parts total 193.85 t, with eight solar wings, six radiators and five S docking ports. [Station capture](docs/validation/30_aors_station.png).
+
+Use **F6** to switch vessels, **F7** for vessel/target/port selection, **V** to toggle RCS, and **I/K, J/L, U/O** to translate along the craft's axes. **C** cycles craft/both-vessel/target-port camera focus. Approach slowly, align opposite port axes, and release thrust/SAS for the capture springs. Docking is automatic when armed and within the stated limits: 0.12 m plane gap, 0.10 m lateral offset, 0.25 m/s relative speed and 7.5° alignment. **N** toggles docking arm/safe; **G** undocks the first docking connection. Map markers can be clicked to target or double-clicked to switch.
+
+**F5/F9** or the on-screen buttons save/load the whole flight, including docked graphs, resources and damage. **ADD LAUNCH** opens the builder; launching from a station session adds another craft at Aster's launchpad while retaining the station. The **X Module Launcher** prebuilt uses existing Forge stages and a reusable X container for further construction. Its complete ascent/campaign has not been flight-qualified for this playtest.
+
+Container families are **S/M/X/XL**: 1.2/2/3/4 m diameters and 2/4/6/8 m lengths. Ten new reusable definitions support the station; laboratories, habitation, logistics and service reuse the same containers. The truss uses repeated 12 m segments. Solar generation, eclipse, joule batteries and priority load shedding are functional on configured vessels. Radiators and airlocks have physical mass/collision but thermal/EVA gameplay is deferred. This is an early playable release with limited checks, rather than a completed historical ISS replica or a fully tested assembly campaign.
+
+## Controls
 
 | Control | Action |
 | --- | --- |
-| W / S | Pitch east / back at launch; body-relative pitch thereafter |
-| A / D | Yaw |
-| Q / E | Roll (directions inverted from the initial release) |
-| Shift / Ctrl | Increase / decrease throttle |
-| Z / X | Full / zero throttle |
-| Space | First ignition; subsequently separate booster and activate upper stage |
-| T / H | SAS off / hold current attitude |
-| P / R | Prograde / retrograde |
-| 1 / 2 | Radial out / in |
-| 3 / 4 | Normal / antinormal |
-| Right mouse drag / wheel | Orbit camera / zoom |
-| , / . | Decrease / increase time warp |
-| Esc | Pause / resume |
-| F1 / F3 | Flight handbook / debug values |
-| M | Toggle 3D orbit map / flight view |
-| F / Tab (map) | Fit orbit / switch focus between planet and spacecraft |
+| W/S, A/D, Q/E | Pitch, yaw, roll |
+| Shift/Ctrl; Z/X | Adjust throttle; full/cut |
+| Space | Execute the next configured stage's actions |
+| T/H; P/R | SAS off/hold; prograde/retrograde |
+| 1/2; 3/4 | Radial out/in; normal/antinormal |
+| Right-drag / wheel | Camera orbit / zoom |
+| Comma / period | Decrease / increase time warp |
+| M | Flight / orbit map |
+| F / Tab / B in map | Fit orbit / focus craft or body / system scale |
+| Click a part / I | Inspect part / close inspector |
+| F4 | Structural stress overlay |
+| F1 / F3; Esc | Handbook / physics values; pause |
 
-Manual attitude input temporarily overrides SAS. HOLD captures your orientation when you release the controls. PROGRADE uses air-relative velocity below the atmosphere boundary, then inertial velocity in space. A faded navigation marker lies behind the craft; a solid marker is on the forward hemisphere. The green ring is prograde, the crossed orange ring retrograde.
+Q/E and horizontal camera drag retain the requested inverted directions. Manual attitude input overrides SAS temporarily. SAS OFF removes control torque while aerodynamic and thrust torques remain active. PROGRADE is air-relative below the atmosphere and relative to the current central body in vacuum.
 
-## Orbit map
+## Vehicle assembly
 
-Press **M** or click **ORBIT MAP** to open the interactive 3D map. **Right-drag** rotates its camera, the **wheel** zooms, **F** fits the whole trajectory and restores its orbital-plane view, and **Tab** switches between planet and spacecraft focus. Press M or click FLIGHT to return. The flight camera keeps its own settings.
+Start with **New**, choose a command capsule or probe, then add catalog parts by dragging onto the craft or using an attachment button. Stack sizes must match; use the adapter where needed. Radial ports support **1, 2, 3, 4, 6 or 8** copies. Highlighted attachment previews and geometric checks reject occupied ports and overlapping parts.
 
-The map shows Aster, the atmosphere, your current position/direction of travel, and the predicted coast trajectory. **Ap** and **Pe** mark the apsides of non-circular trajectories. Circular orbits have no unique apsis positions, so their altitude values appear in the sidebar without unstable markers. Orange path segments enter the atmosphere. Suborbital paths end at their first **SURFACE INTERSECTION**; escape paths are open and displayed to a finite range. The sidebar includes orbital speed, period, eccentricity, inclination, propellant, throttle, SAS and warp state.
+Select a part to change tank fill, engine thrust limit/gimbal, crossfeed, wheel availability or gear deployment. Move/copy operates on an attached branch; group editing applies to symmetry partners. R rotates, Delete removes, F fits, Ctrl+Z/Y undo/redo. Drag stage actions between stage cards; reorder stages with arrows. Disable automatic staging when arranging a custom sequence.
 
-This is a live map: the simulation continues, and steering, staging, throttle and comma/period warp still work. **Esc** pauses/resumes. The path updates during a burn. It is an instantaneous coast prediction, so future thrust and atmospheric drag change the actual trajectory and impact point. Maneuver nodes, transfer planning and additional bodies are not included yet.
+COM, initial-stage thrust and estimated pressure-centre markers accompany mass, thrust, TWR, delta-v, burn-time and alignment information. **Save** writes a versioned craft to `user://craft`; **Load** includes saved and prebuilt vehicles. **Launch** instantiates that exact design. Craft saves contain construction recipes, not running flight saves.
 
 ## First orbit
 
-1. Launch at full throttle. Leave SAS in HOLD and climb vertically to about **1 km**.
-2. Hold **W** briefly to tip east. Watch the pitch instrument: aim for **65° at 5 km**, **35° at 20 km**, then progressively toward **5–10° at 40–45 km**. Release W between corrections; HOLD stops the turn. Heading should be near **090°**.
-3. Watch **apoapsis**, not just altitude. When apoapsis reaches about **120 km**, press **X**. You will still be well below that height and climbing.
-4. Press **Space** to drop the booster, even if it still has a little fuel. Press **P** to follow prograde while coasting. If the booster runs dry earlier, stage then and continue the ascent with the upper stage.
-5. About **50 seconds before apoapsis**, press **Z** to burn prograde with stage 2. Watch periapsis rise from a negative value. Apsides can change quickly near circularization; reduce throttle with Ctrl if desired.
-6. Once periapsis is above **60 km** and **ORBIT ACHIEVED** appears, press **X**. The spacecraft continues orbiting naturally. Press **.** to accelerate time, and **,** to slow it again.
+1. Select **Orbital Test Vehicle**. Press **Z**, then **Space**.
+2. Climb vertically to 1 km. Pitch east with W: roughly 65° at 5 km, 35° at 20 km, then 5–10° at 40–45 km. Release controls between corrections so HOLD stops the turn.
+3. Cut with X when predicted apoapsis reaches about 120 km. Stage with Space; P follows prograde during the coast. If the booster empties first, stage and continue the ascent.
+4. About 50 seconds before apoapsis, burn prograde with Z. Cut when periapsis exceeds 60 km. The craft continues orbiting under gravity.
 
-The manual-input validation flight with aerodynamic moments reaches a **162 × 65 km orbit in 301.6 s**, with **72.6% upper-stage propellant** left. The ascent profile is forgiving, but flying vertically for too long wastes fuel and does not establish orbit. Overshooting horizontal speed can produce an escape trajectory, displayed as ESCAPE.
+The current production regression reaches approximately **158 × 65 km in 309 seconds**, with about **75% upper-stage propellant** remaining. A separate rendered acceptance test constructs the rocket from scratch in the editor, saves/reloads it, launches and reaches orbit.
 
-## Time warp and reentry
+## Map, warp and Neris
 
-Press **.** to increase speed and **,** to decrease it: **1×, 2×, 3×, 4×, 10×, 50×, 100×, 1,000×**. The right-hand HUD shows the current rate and mode.
+The live 3D map shows the current body's orbit, apsides, atmospheric segments and radius-based impact estimate. B zooms out to the Aster–Neris system. Neris' orbital track and SOI ring are shown; long trajectories add timed patched-conic encounter segments and predicted lunar periapsis. Predictions omit future thrust, drag and perturbations, and are bounded in time/sample count. Ordinary conic impact markers use the reference radius; terrain is authoritative during actual flight.
 
-- **Physics warp, 1–4×:** all forces, aerodynamic torque, fuel consumption, controls and debris continue at the original fixed 1/120 s step. Higher rates run more substeps, without stretching the physics timestep. Available in the atmosphere and during burns; warp is disabled on the pad and after impact.
-- **Coast warp, 10–1,000×:** available above the atmosphere with the throttle at zero. The two-body trajectory is propagated with a double-precision universal-variable Kepler solver, including elliptical and escape trajectories. Orientation and angular velocity are held during this mode; they resume with physics. Steering, throttle, staging and SAS commands immediately return to 1×.
-- **Atmosphere approach:** high warp automatically returns to 1× before it could cross into the atmosphere. A conservative distance bound protects the entire next interval, including suborbital trajectories; a 1 km boundary margin avoids rapid mode switching. The game does not automatically accelerate again after exiting air.
+Warp rates are **1, 2, 3, 4, 10, 50, 100 and 1,000×**. In atmosphere or under thrust, 1–4× repeats the unchanged 1/120 s force steps. Vacuum coast reuses the double-precision Kepler solver. Attitude is held in coast warp. Inputs cancel high warp; conservative guards stop it before atmosphere, terrain, nearby component contact or an SOI crossing could be skipped. After a boundary, increase warp again manually. Powered/atmospheric debris continues force integration.
 
-Air drag now depends on the craft's presentation to the flow: broadside flight exposes more area. Drag acts at an offset centre of pressure and creates torque even with **SAS OFF**. The included aft pressure centre tends to align the nose into the airflow, with oscillations damped by the air. Stage resources expose pressure-centre offset, side drag and damping for other stability characteristics. The same model applies to discarded stages.
+**Neris** has a 100 km radius, 0.8 m/s² surface gravity, no atmosphere, a 3,000 km orbit radius and a roughly 262 km SOI radius. Its ephemeris, body-relative gravity, warp and prediction use one shared clock. Capture requires an engine burn: merely entering the SOI cannot capture or circularize a craft.
 
-Fast atmospheric flight produces animated airflow streaks. Reentry adds a windward plasma glow and streaming wake, driven by air-relative speed and density. **HEATING** is a qualitative visual intensity, not temperature or damage; this update does not add thermal destruction or heat shields. The Sun now uses a white core/halo, with matching light direction. Horizontal camera dragging is inverted from the initial release.
+For a lunar mission, establish an Aster parking orbit, burn prograde to extend apoapsis toward Neris' orbit, and use encounter/periapsis markers to refine the approach. Correct a terrain-intersecting approach before arrival, then burn retrograde near lunar periapsis for capture. Depart approximately opposite Neris' orbital motion to lower the Aster return periapsis. The test pilot demonstrates the complete launch → lunar capture → full lunar orbit → escape → atmospheric return sequence with real burns. It is test guidance, not an in-game autopilot or maneuver-node system.
 
-## Physics and scale
+Neris Explorer adds a parachute and four landing legs. Its third stage deploys the legs; its fourth cuts the upper engine and deploys the chute. Use controlled, slow powered lunar descent; parachutes do nothing in lunar vacuum. The included landing test is a separate initialized descent, not a claim that the complete return mission also landed.
 
-All simulation units are metres, seconds, kilograms and newtons. Aster is a **600 km-radius** scaled test planet with **9.81 m/s²** surface gravity, **60 km** atmosphere and **6-hour** rotation. `mu = g R²`; this is internally consistent, but not a full-scale model of Earth.
+## Terrain, water and failure
 
-Position and velocity use double-precision scalar components independently of Godot scene coordinates. The scene uses a craft-relative foreground and a separate 1:1000 background viewport for the planet. Physics runs at 60 fixed ticks per second with two 1/120 s substeps per unit of physics warp. Ordinary coast uses velocity Verlet; atmospheric drag uses an endpoint velocity predictor. High coast warp solves the same Newtonian two-body dynamics with universal variables. Attitude integrates quaternion orientation under control and aerodynamic torque, with implicit rotational air damping.
+A shared procedural spherical terrain field supplies both rendered LOD tiles and physical contact heights/normals. Aster has mountains, plains, coasts and a raised launch site; Neris has cratered terrain. Oceans are physical water with waves, per-part displaced-volume buoyancy, water drag and angular damping. Intact capsules float partly submerged; dense or flooded wrecks can sink. Fast water impacts can destroy parts. Contact drives splash rings, spray, foam, wakes and underwater fog.
 
-See [architecture and plan](docs/IMPLEMENTATION_PLAN.md), [development journal](docs/DEVELOPMENT_JOURNAL.md) and [validation results](docs/VALIDATION.md).
+Every part contributes aerodynamic forces and a pressure-centre moment. Approximate shielding reduces downstream exposure. Joint axial/shear/bending/torsion loads can break the graph deterministically; each disconnected component retains its own resources, velocity, rotation and active modules. Nearby wrecks remain physical. Click a part or enable F4 to inspect the cause. Collision proxies are rigid primitives; connected assemblies do not visibly flex.
 
-## Data and source
+Cloud layers, ocean waves, atmosphere glow, local sunrise/sunset and land-only night lights are procedural and share one Sun direction. Reentry plasma and airflow FX use actual density and relative speed. Heating is an explicitly qualitative visual proxy; there is no thermal destruction or heat-shield model.
+
+## Source and validation
 
 | Directory | Responsibility |
 | --- | --- |
-| `definitions/` | Typed planet, atmosphere, vehicle, stage and engine Resources |
-| `data/` | Editable `.tres` planet and rocket definitions |
-| `simulation/` | Gravity, atmosphere, drag, orbits, propellant, staging, attitude and instrumentation |
-| `game/` | Session, keyboard controls, camera, procedural meshes and world rendering |
-| `ui/` | Selection screen, HUD, navigation indicator and debug overlay |
-| `tests/` | Physics, engine/staging, full-ascent and rendered gameplay regressions |
+| `definitions/`, `data/` | Part/body resources, catalog JSON and craft recipes |
+| `simulation/` | Double translation, mass/inertia, graph/modules, forces, loads, contacts, water, orbits and celestial clock |
+| `game/` | Flight orchestration, camera, original meshes/shaders/audio and effects |
+| `ui/` | Assembly, HUD, map and inspector |
+| `tests/` | Numerical, conservation, full-mission, editor and rendered input checks |
 
-Duplicate the resources to define additional vehicles or planets and change the selected resource in `game/main.gd`. The vertical slice deliberately exposes only one vehicle in the menu. Models, stages and tank state are separate from resource definitions, allowing a future builder to generate the same vehicle data.
+Windows full validation:
 
-## Run validation
-
-From the project directory (replace `godot` with your Godot executable):
-
-```text
-godot --headless --editor --path . --import --quit
-godot --headless --path . --script tests/validate_physics.gd
-godot --headless --path . --script tests/validate_vehicle.gd
-godot --headless --path . --script tests/validate_reentry_warp.gd
-godot --headless --path . --script tests/validate_map.gd
-godot --headless --path . --script tests/validate_ascent.gd
-godot --path . --script tests/validate_gameplay.gd
-godot --path . --script tests/validate_map_gameplay.gd
+```powershell
+.\tests\run_tests.ps1 -Godot 'C:\path\to\Godot.exe' -WithRendering
 ```
 
-On Windows, `tests/run_tests.ps1 -Godot 'C:\path\to\Godot.exe' -WithRendering` runs all checks and rejects runtime error logs as well as nonzero exit codes. Physics tests run faster than real time. The last test needs a graphics device and saves screenshots in `docs/validation/`. Its orbital screenshot uses a seeded circular state; the separate ascent regression proves launch-to-orbit without teleportation or direct attitude assignment.
+The runner imports an isolated `.godot/regression-project` copy, records logs in `.godot/test-results`, and rejects engine error logs and nonzero native exits. It can take several minutes; rendered checks need a graphics device. Generated captures are under the isolated project's `docs/validation`. Individual numerical tests can be run using `godot --headless --path . --script tests/validate_celestial.gd` after import.
 
-## Deliberate limits
+Build a Linux x86-64 release entirely from the command line:
 
-Single spherical planet; no terrain collision beyond the sphere. Point-mass translation with cylinder inertia for attitude. Aerodynamics use approximate projected drag, a stage-defined pressure-centre offset and rotational damping; no lift, detailed part-by-part stability or temperature/damage simulation. Idealized electric attitude control has no power budget. Collision ends the flight; there is no landing or recovery system. Discarded stages are removed on impact or beyond 200 km from the active craft. Atmospheric debris continues at full physics steps even during spacecraft coast warp, so actual acceleration can be CPU-limited. The local visual launch surface is a tangent plane, not terrain. The attitude indicator is an approximate projected horizon, not a full spherical navball. The map shows only the active craft's instantaneous two-body coast path, without future drag/thrust, maneuver nodes or other planets. No rocket editor, missions, multiplayer or save system.
+```text
+python tools/build_linux.py --godot /path/to/Godot
+```
 
-All visible assets are generated from Godot primitives, shaders and its built-in font. No proprietary game assets are used.
+See [Linux instructions](docs/LINUX_BUILD.md). If an editor left open during external changes reports stale resource UIDs, restart the editor itself; retain existing UID sidecars.
+
+For Windows x86-64, run `python tools/build_windows.py --godot C:/path/to/Godot.exe`. The CLI builder uses the matching verified templates and an isolated import, then creates `build/windows-x86_64/GodotSpaceProgram/GodotSpaceProgram.exe` with embedded game data and `GodotSpaceProgram-windows-x86_64.zip` with instructions/license notices. Extract the ZIP and double-click the EXE; no editor or separate PCK is needed. SHA-256 checksums accompany the package.
+
+The ZIP also includes **Launch Vulkan.cmd**. On the development Intel Iris Xe machine, the installed OpenGL driver crashed during exported graphical shutdown; the Vulkan/Mobile alternative passed startup and exit. Use that launcher on this machine. This is a backend alternative, not a change to the project's default renderer or physics.
+
+## Approximations and limits
+
+- One rigid integrated body per connected tree, full aggregate inertia; no flexible joints, graph loops, tank slosh or resolved fluid inside tanks.
+- Approximate part aerodynamics, volume-sampled water, impulse contacts and patched conics; no CFD, full N-body tides or weather simulation.
+- Explicit finite reaction-wheel torque; legacy craft retain idealized electricity unless configured with joule capacity, while the station/tug use the new power system. The training capsule has intentionally strong authority. Gimbal input is bounded, but SAS does not yet allocate commands optimally across gimbals/fins/wheels.
+- Solar power, batteries and live flight saves are implemented in the AORS playtest. Part temperature remains a placeholder; thermal damage, crew/career and maneuver nodes are deferred.
+- Terrain clipmaps rebuild on recentring, which can delay detail during fast low flight. Coarse orbital terrain and simplified ocean reflections remain visual approximations.
+- Debris beyond 200 km from the active craft is culled. Full physics cost and achievable warp depend on part count and debris; see measured performance in the validation report.
+- No multiplayer or additional planets. Linux graphical gameplay and other GPUs remain untested.
+
+All visible assets are generated from original procedural code, Godot primitives and its built-in font; no proprietary game assets are included.

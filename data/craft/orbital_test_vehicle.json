@@ -1,0 +1,22 @@
+{
+ "schema_version":1,"catalog_version":1,"name":"Orbital Test Vehicle","root_part_id":"capsule","aero_model":"parts",
+ "parts":[
+  {"id":"capsule","definition_id":"command.capsule","position_m":[0,0,0],"rotation_xyzw":[0,0,0,1]},
+  {"id":"upper_tank","definition_id":"tank.lumen","position_m":[0,-5.25,0],"rotation_xyzw":[0,0,0,1]},
+  {"id":"upper_engine","definition_id":"engine.lumen","position_m":[0,-9.25,0],"rotation_xyzw":[0,0,0,1]},
+  {"id":"interstage","definition_id":"decoupler.stack","position_m":[0,-10.25,0],"rotation_xyzw":[0,0,0,1]},
+  {"id":"booster_tank","definition_id":"tank.forge","position_m":[0,-16.25,0],"rotation_xyzw":[0,0,0,1]},
+  {"id":"booster_engine","definition_id":"engine.forge","position_m":[0,-23,0],"rotation_xyzw":[0,0,0,1]}
+ ],
+ "connections":[
+  {"id":"c1","a":["capsule","bottom"],"b":["upper_tank","top"],"crossfeed":true},
+  {"id":"c2","a":["upper_tank","bottom"],"b":["upper_engine","top"],"crossfeed":true},
+  {"id":"c3","a":["upper_engine","bottom"],"b":["interstage","top"],"crossfeed":false},
+  {"id":"c4","a":["interstage","bottom"],"b":["booster_tank","top"],"crossfeed":true},
+  {"id":"c5","a":["booster_tank","bottom"],"b":["booster_engine","top"],"crossfeed":true}
+ ],
+ "stages":[
+  {"id":"liftoff","actions":[{"part_id":"booster_engine","action":"ignite"}]},
+  {"id":"upper","actions":[{"part_id":"booster_engine","action":"shutdown"},{"part_id":"interstage","action":"decouple"},{"part_id":"upper_engine","action":"ignite"}]}
+ ],"symmetry_groups":[]
+}

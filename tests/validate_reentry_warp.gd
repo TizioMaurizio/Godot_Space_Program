@@ -9,17 +9,13 @@ func check(condition: bool, message: String) -> void:
 	if not condition:
 		failures += 1
 
-func entry_body() -> FlightBody:
+func _initialize() -> void:
 	var body := FlightBody.new()
 	body.mass = 6000.0
 	body.length = 12.0
 	body.position = DVec3.new(0, planet.radius + 25000, 0)
 	body.velocity = PlanetPhysics.air_velocity(body.position, planet).plus(DVec3.new(0, 1800, 0))
 	body.orientation = Quaternion(Vector3.BACK, deg_to_rad(40.0))
-	return body
-
-func _initialize() -> void:
-	var body := entry_body()
 	body.sample_atmosphere(planet)
 	var first_angle: float = body.orientation.angle_to(Quaternion.IDENTITY)
 	var controller := AttitudeController.new()
@@ -45,7 +41,12 @@ func _initialize() -> void:
 	for i in range(120):
 		body.integrate_attitude(Vector3.ZERO, 1.0 / 120)
 	check(absf(body.angular_velocity.x - 0.2) < 1e-6, "SAS-off principal-axis spin persists in vacuum")
-	body = entry_body()
+	body = FlightBody.new()
+	body.mass = 6000.0
+	body.length = 12.0
+	body.position = DVec3.new(0, planet.radius + 25000, 0)
+	body.velocity = PlanetPhysics.air_velocity(body.position, planet).plus(DVec3.new(0, 1800, 0))
+	body.orientation = Quaternion(Vector3.BACK, deg_to_rad(40.0))
 	body.orientation = Quaternion.IDENTITY
 	body.angular_velocity = Vector3(0, 1, 0)
 	for i in range(1200):
@@ -108,4 +109,4 @@ func _initialize() -> void:
 	check(camera.azimuth > azimuth, "horizontal camera drag uses the inverted direction")
 	camera.free()
 	print("RESULT: %d failures" % failures)
-	quit(1 if failures else 0)
+	call_deferred("quit",1 if failures else 0)

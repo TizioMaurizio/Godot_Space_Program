@@ -7,7 +7,8 @@ static func gravity(position: DVec3, planet: PlanetDefinition) -> DVec3:
 
 static func air_velocity(position: DVec3, planet: PlanetDefinition) -> DVec3:
 	# Rotation about inertial +Z. Launch is at +Y; east is initially -X.
-	return DVec3.new(-planet.rotation_rate * position.y, planet.rotation_rate * position.x, 0.0)
+	var axis := DVec3.new(0,-sin(planet.axial_tilt),cos(planet.axial_tilt))
+	return axis.cross(position).scaled(planet.rotation_rate)
 
 static func density(altitude: float, atmosphere: AtmosphereDefinition) -> float:
 	if atmosphere == null or altitude >= atmosphere.height:

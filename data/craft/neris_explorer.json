@@ -1,0 +1,377 @@
+{
+  "schema_version": 1,
+  "catalog_version": 1,
+  "name": "Neris Explorer",
+  "root_part_id": "capsule",
+  "aero_model": "parts",
+  "parts": [
+    {
+      "id": "capsule",
+      "definition_id": "command.capsule",
+      "position_m": [
+        0,
+        0,
+        0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "id": "upper_tank",
+      "definition_id": "tank.lumen",
+      "position_m": [
+        0,
+        -5.25,
+        0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "id": "upper_engine",
+      "definition_id": "engine.lumen",
+      "position_m": [
+        0,
+        -9.25,
+        0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "id": "interstage",
+      "definition_id": "decoupler.stack",
+      "position_m": [
+        0,
+        -10.25,
+        0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "id": "booster_tank",
+      "definition_id": "tank.forge",
+      "position_m": [
+        0,
+        -16.25,
+        0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "id": "booster_engine",
+      "definition_id": "engine.forge",
+      "position_m": [
+        0,
+        -23,
+        0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "id": "parachute",
+      "definition_id": "utility.parachute",
+      "position_m": [
+        0,
+        2.3,
+        0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "id": "leg_0",
+      "definition_id": "utility.leg",
+      "position_m": [
+        1.8,
+        -9.25,
+        0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "symmetry_group": "landing_legs"
+    },
+    {
+      "id": "leg_1",
+      "definition_id": "utility.leg",
+      "position_m": [
+        1.1021821192326179e-16,
+        -9.25,
+        -1.8
+      ],
+      "rotation_xyzw": [
+        0,
+        0.7071067811865475,
+        0,
+        0.7071067811865476
+      ],
+      "symmetry_group": "landing_legs"
+    },
+    {
+      "id": "leg_2",
+      "definition_id": "utility.leg",
+      "position_m": [
+        -1.8,
+        -9.25,
+        -2.2043642384652358e-16
+      ],
+      "rotation_xyzw": [
+        0,
+        1,
+        0,
+        6.123233995736766e-17
+      ],
+      "symmetry_group": "landing_legs"
+    },
+    {
+      "id": "leg_3",
+      "definition_id": "utility.leg",
+      "position_m": [
+        -3.3065463576978537e-16,
+        -9.25,
+        1.8
+      ],
+      "rotation_xyzw": [
+        0,
+        0.7071067811865476,
+        0,
+        -0.7071067811865475
+      ],
+      "symmetry_group": "landing_legs"
+    }
+  ],
+  "connections": [
+    {
+      "id": "c1",
+      "a": [
+        "capsule",
+        "bottom"
+      ],
+      "b": [
+        "upper_tank",
+        "top"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "c2",
+      "a": [
+        "upper_tank",
+        "bottom"
+      ],
+      "b": [
+        "upper_engine",
+        "top"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "c3",
+      "a": [
+        "upper_engine",
+        "bottom"
+      ],
+      "b": [
+        "interstage",
+        "top"
+      ],
+      "crossfeed": false
+    },
+    {
+      "id": "c4",
+      "a": [
+        "interstage",
+        "bottom"
+      ],
+      "b": [
+        "booster_tank",
+        "top"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "c5",
+      "a": [
+        "booster_tank",
+        "bottom"
+      ],
+      "b": [
+        "booster_engine",
+        "top"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "recovery_chute",
+      "a": [
+        "capsule",
+        "top"
+      ],
+      "b": [
+        "parachute",
+        "bottom"
+      ],
+      "crossfeed": false
+    },
+    {
+      "id": "leg_joint_0",
+      "a": [
+        "upper_engine",
+        "radial"
+      ],
+      "b": [
+        "leg_0",
+        "surface"
+      ],
+      "crossfeed": false,
+      "radial_angle": 0
+    },
+    {
+      "id": "leg_joint_1",
+      "a": [
+        "upper_engine",
+        "radial"
+      ],
+      "b": [
+        "leg_1",
+        "surface"
+      ],
+      "crossfeed": false,
+      "radial_angle": 1.5707963267948966
+    },
+    {
+      "id": "leg_joint_2",
+      "a": [
+        "upper_engine",
+        "radial"
+      ],
+      "b": [
+        "leg_2",
+        "surface"
+      ],
+      "crossfeed": false,
+      "radial_angle": 3.141592653589793
+    },
+    {
+      "id": "leg_joint_3",
+      "a": [
+        "upper_engine",
+        "radial"
+      ],
+      "b": [
+        "leg_3",
+        "surface"
+      ],
+      "crossfeed": false,
+      "radial_angle": 4.71238898038469
+    }
+  ],
+  "stages": [
+    {
+      "id": "liftoff",
+      "actions": [
+        {
+          "part_id": "booster_engine",
+          "action": "ignite"
+        }
+      ]
+    },
+    {
+      "id": "upper",
+      "actions": [
+        {
+          "part_id": "booster_engine",
+          "action": "shutdown"
+        },
+        {
+          "part_id": "interstage",
+          "action": "decouple"
+        },
+        {
+          "part_id": "upper_engine",
+          "action": "ignite"
+        }
+      ]
+    },
+    {
+      "id": "landing_gear",
+      "actions": [
+        {
+          "part_id": "leg_0",
+          "action": "deploy"
+        },
+        {
+          "part_id": "leg_1",
+          "action": "deploy"
+        },
+        {
+          "part_id": "leg_2",
+          "action": "deploy"
+        },
+        {
+          "part_id": "leg_3",
+          "action": "deploy"
+        }
+      ]
+    },
+    {
+      "id": "parachute",
+      "actions": [
+        {
+          "part_id": "upper_engine",
+          "action": "shutdown"
+        },
+        {
+          "part_id": "parachute",
+          "action": "deploy"
+        }
+      ]
+    }
+  ],
+  "symmetry_groups": [
+    {
+      "id": "landing_legs",
+      "members": [
+        "leg_0",
+        "leg_1",
+        "leg_2",
+        "leg_3"
+      ]
+    }
+  ]
+}

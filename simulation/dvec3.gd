@@ -11,9 +11,6 @@ func _init(px: float = 0.0, py: float = 0.0, pz: float = 0.0) -> void:
 	y = py
 	z = pz
 
-static func from_vec(v: Vector3) -> DVec3:
-	return DVec3.new(v.x, v.y, v.z)
-
 func vec() -> Vector3:
 	return Vector3(x, y, z)
 
@@ -43,3 +40,14 @@ func unit() -> DVec3:
 
 func display() -> String:
 	return "(%+.3f, %+.3f, %+.3f)" % [x, y, z]
+
+func rotated(q: Quaternion) -> DVec3:
+	# Expand quaternion rotation in scalar doubles, including local offsets.
+	var tx: float = 2.0*(q.y*z-q.z*y)
+	var ty: float = 2.0*(q.z*x-q.x*z)
+	var tz: float = 2.0*(q.x*y-q.y*x)
+	return DVec3.new(x+q.w*tx+q.y*tz-q.z*ty,
+		y+q.w*ty+q.z*tx-q.x*tz,z+q.w*tz+q.x*ty-q.y*tx)
+
+func array() -> Array:
+	return [x, y, z]

@@ -18,8 +18,9 @@ func reset(message: String = "") -> void:
 	notice = message
 
 func change(direction: int, rocket: RocketState, planet: PlanetDefinition) -> void:
+	planet = rocket.reference_body
 	var maximum: int = RATES.size() - 1
-	var altitude: float = rocket.position.length() - planet.radius
+	var altitude: float = rocket.relative_position().length() - planet.radius
 	if rocket.on_pad or rocket.crashed:
 		reset("Launch before increasing time warp")
 		return
@@ -32,6 +33,7 @@ func change(direction: int, rocket: RocketState, planet: PlanetDefinition) -> vo
 	index = requested
 
 func enforce(rocket: RocketState, planet: PlanetDefinition, manual: Vector3, throttle_input: float) -> void:
+	planet = rocket.reference_body
 	if rocket.crashed or rocket.on_pad:
 		reset()
 	elif is_coasting():
@@ -41,14 +43,18 @@ func enforce(rocket: RocketState, planet: PlanetDefinition, manual: Vector3, thr
 			reset("Approaching atmosphere: normal speed")
 
 static func vacuum_interval_safe(body: FlightBody, planet: PlanetDefinition, dt: float) -> bool:
-	var boundary: float = planet.radius + planet.atmosphere.height + ENTRY_MARGIN
-	var gap: float = body.position.length() - boundary
+	var position: DVec3 = body.relative_position() if body is RocketState else body.position
+	var velocity: DVec3 = body.relative_velocity() if body is RocketState else body.velocity
+	var terrain_height: float = planet.terrain.maximum_height if planet.terrain != null else 0.0
+	var safe_height: float = maxf(planet.atmosphere.height,terrain_height)+ENTRY_MARGIN
+	var boundary: float = planet.radius + safe_height
+	var gap: float = position.length() - boundary
 	if gap <= 0:
 		return false
-	var elements := OrbitalMechanics.elements(body.position, body.velocity, planet)
-	if elements.periapsis > planet.atmosphere.height + ENTRY_MARGIN:
+	var elements := OrbitalMechanics.elements(position, velocity, planet)
+	if elements.periapsis > safe_height:
 		return true
 	# A bound on distance travelled before the first boundary crossing protects
 	# the entire interval (including trajectories that would enter AND exit it).
 	var maximum_gravity: float = planet.mu() / (boundary * boundary)
-	return gap > body.velocity.length() * dt + 0.5 * maximum_gravity * dt * dt
+	return gap > velocity.length() * dt + 0.5 * maximum_gravity * dt * dt

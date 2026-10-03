@@ -1,11 +1,21 @@
-[gd_resource type="Resource" script_class="PlanetDefinition" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="PlanetDefinition" load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://definitions/planet_definition.gd" id="1"]
 [ext_resource type="Script" path="res://definitions/atmosphere_definition.gd" id="2"]
+[ext_resource type="Script" path="res://definitions/terrain_definition.gd" id="3"]
+[ext_resource type="Script" path="res://definitions/ocean_definition.gd" id="4"]
 
 [sub_resource type="Resource" id="Atmosphere"]
 script = ExtResource("2")
 
+[sub_resource type="Resource" id="Terrain"]
+script = ExtResource("3")
+
+[sub_resource type="Resource" id="Ocean"]
+script = ExtResource("4")
+
 [resource]
 script = ExtResource("1")
 atmosphere = SubResource("Atmosphere")
+terrain = SubResource("Terrain")
+ocean = SubResource("Ocean")

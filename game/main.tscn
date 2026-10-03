@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" path="res://game/main.gd" id="1"]
 
-[node name="AsterFlightLab" type="Node3D"]
+[node name="GodotSpaceProgram" type="Node3D"]
 script = ExtResource("1")

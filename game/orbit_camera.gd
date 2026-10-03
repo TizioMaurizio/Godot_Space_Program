@@ -7,6 +7,7 @@ var distance: float = 62.0
 var smooth_distance: float = 62.0
 var dragging: bool = false
 var smooth_up := Vector3.UP
+var focus_offset := Vector3.ZERO
 
 func _ready() -> void:
 	near = 0.1
@@ -34,6 +35,6 @@ func follow(up: Vector3, delta: float, menu: bool) -> void:
 		east = Vector3.LEFT
 	var north: Vector3 = smooth_up.cross(east).normalized()
 	var offset: Vector3 = (east * sin(azimuth) + north * cos(azimuth)) * cos(elevation) + smooth_up * sin(elevation)
-	position = offset * smooth_distance
-	look_at(Vector3.ZERO, smooth_up)
+	position = focus_offset+offset * smooth_distance
+	look_at(focus_offset, smooth_up)
 	h_offset = -smooth_distance * 0.18 if menu else 0.0

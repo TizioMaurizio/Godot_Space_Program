@@ -1,0 +1,1326 @@
+{
+  "schema_version": 1,
+  "catalog_version": 1,
+  "name": "Aster Orbital Research Station / AORS",
+  "root_part_id": "aors-core",
+  "parts": [
+    {
+      "id": "aors-core",
+      "definition_id": "structure.node.xl",
+      "position_m": [
+        0,
+        0,
+        0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "aors-lab-axial",
+      "definition_id": "container.xl",
+      "position_m": [
+        0.0,
+        7.0,
+        0.0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "aors-node-forward",
+      "definition_id": "structure.node.xl",
+      "position_m": [
+        0.0,
+        14.0,
+        0.0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "aors-lab-port",
+      "definition_id": "container.x",
+      "position_m": [
+        -5.0,
+        14.0,
+        0.0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0.7071067811865476,
+        0.7071067811865476
+      ],
+      "settings": {}
+    },
+    {
+      "id": "aors-lab-starboard",
+      "definition_id": "container.xl",
+      "position_m": [
+        6.000000000000001,
+        14.0,
+        0.0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        -0.7071067811865476,
+        0.7071067811865476
+      ],
+      "settings": {}
+    },
+    {
+      "id": "aors-hab-node",
+      "definition_id": "structure.node.xl",
+      "position_m": [
+        0.0,
+        -6.0,
+        0.0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "aors-service",
+      "definition_id": "container.xl",
+      "position_m": [
+        0.0,
+        -13.0,
+        0.0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "aors-airlock",
+      "definition_id": "container.x",
+      "position_m": [
+        -5.0,
+        -4.440892098500626e-16,
+        0.0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0.7071067811865476,
+        0.7071067811865476
+      ],
+      "settings": {}
+    },
+    {
+      "id": "aors-logistics",
+      "definition_id": "container.x",
+      "position_m": [
+        5.0,
+        -6.0,
+        0.0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        -0.7071067811865476,
+        0.7071067811865476
+      ],
+      "settings": {}
+    },
+    {
+      "id": "aors-observation",
+      "definition_id": "container.s",
+      "position_m": [
+        0.0,
+        -6.0,
+        -3.0
+      ],
+      "rotation_xyzw": [
+        -0.7071067811865476,
+        0,
+        0,
+        0.7071067811865476
+      ],
+      "settings": {}
+    },
+    {
+      "id": "aors-keel",
+      "definition_id": "container.m",
+      "position_m": [
+        0.0,
+        -4.440892098500626e-16,
+        4.0
+      ],
+      "rotation_xyzw": [
+        0.7071067811865476,
+        0,
+        0,
+        0.7071067811865476
+      ],
+      "settings": {
+        "electric_load_w": 0
+      }
+    },
+    {
+      "id": "truss-center",
+      "definition_id": "structure.truss.x",
+      "position_m": [
+        0.0,
+        -8.881784197001252e-16,
+        7.5
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        -0.7071067811865476,
+        0.7071067811865476
+      ],
+      "settings": {}
+    },
+    {
+      "id": "truss-port-1",
+      "definition_id": "structure.truss.x",
+      "position_m": [
+        -12.000000000000002,
+        8.881784197001252e-16,
+        7.5
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        -0.7071067811865476,
+        0.7071067811865476
+      ],
+      "settings": {}
+    },
+    {
+      "id": "truss-port-2",
+      "definition_id": "structure.truss.x",
+      "position_m": [
+        -24.000000000000004,
+        2.6645352591003757e-15,
+        7.5
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        -0.7071067811865476,
+        0.7071067811865476
+      ],
+      "settings": {}
+    },
+    {
+      "id": "truss-port-3",
+      "definition_id": "structure.truss.x",
+      "position_m": [
+        -36.00000000000001,
+        4.440892098500626e-15,
+        7.5
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        -0.7071067811865476,
+        0.7071067811865476
+      ],
+      "settings": {}
+    },
+    {
+      "id": "truss-starboard-1",
+      "definition_id": "structure.truss.x",
+      "position_m": [
+        12.000000000000002,
+        -2.6645352591003757e-15,
+        7.5
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        -0.7071067811865476,
+        0.7071067811865476
+      ],
+      "settings": {}
+    },
+    {
+      "id": "truss-starboard-2",
+      "definition_id": "structure.truss.x",
+      "position_m": [
+        24.000000000000004,
+        -4.440892098500626e-15,
+        7.5
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        -0.7071067811865476,
+        0.7071067811865476
+      ],
+      "settings": {}
+    },
+    {
+      "id": "truss-starboard-3",
+      "definition_id": "structure.truss.x",
+      "position_m": [
+        36.00000000000001,
+        -6.217248937900877e-15,
+        7.5
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        -0.7071067811865476,
+        0.7071067811865476
+      ],
+      "settings": {}
+    },
+    {
+      "id": "truss-starboard-4",
+      "definition_id": "structure.truss.x",
+      "position_m": [
+        48.00000000000001,
+        -7.993605777301127e-15,
+        7.5
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        -0.7071067811865476,
+        0.7071067811865476
+      ],
+      "settings": {}
+    },
+    {
+      "id": "truss-port-1-solar-front",
+      "definition_id": "power.solar.xl",
+      "position_m": [
+        -12.000000000000002,
+        18.5,
+        8.5
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "truss-port-1-solar-aft",
+      "definition_id": "power.solar.xl",
+      "position_m": [
+        -12.000000000000002,
+        -18.5,
+        8.5
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "truss-port-3-solar-front",
+      "definition_id": "power.solar.xl",
+      "position_m": [
+        -36.00000000000001,
+        18.500000000000004,
+        8.5
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "truss-port-3-solar-aft",
+      "definition_id": "power.solar.xl",
+      "position_m": [
+        -36.00000000000001,
+        -18.499999999999996,
+        8.5
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "truss-starboard-1-solar-front",
+      "definition_id": "power.solar.xl",
+      "position_m": [
+        12.000000000000002,
+        18.499999999999996,
+        8.5
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "truss-starboard-1-solar-aft",
+      "definition_id": "power.solar.xl",
+      "position_m": [
+        12.000000000000002,
+        -18.500000000000004,
+        8.5
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "truss-starboard-3-solar-front",
+      "definition_id": "power.solar.xl",
+      "position_m": [
+        36.00000000000001,
+        18.499999999999993,
+        8.5
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "truss-starboard-3-solar-aft",
+      "definition_id": "power.solar.xl",
+      "position_m": [
+        36.00000000000001,
+        -18.500000000000007,
+        8.5
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "truss-port-2-radiator-front",
+      "definition_id": "power.radiator.x",
+      "position_m": [
+        -24.000000000000004,
+        6.500000000000003,
+        6.5
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "truss-port-2-radiator-aft",
+      "definition_id": "power.radiator.x",
+      "position_m": [
+        -24.000000000000004,
+        -6.499999999999997,
+        6.5
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "truss-center-radiator-front",
+      "definition_id": "power.radiator.x",
+      "position_m": [
+        2.220446049250313e-16,
+        6.499999999999999,
+        6.5
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "truss-center-radiator-aft",
+      "definition_id": "power.radiator.x",
+      "position_m": [
+        -2.220446049250313e-16,
+        -6.500000000000001,
+        6.5
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "truss-starboard-2-radiator-front",
+      "definition_id": "power.radiator.x",
+      "position_m": [
+        24.000000000000004,
+        6.499999999999996,
+        6.5
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "truss-starboard-2-radiator-aft",
+      "definition_id": "power.radiator.x",
+      "position_m": [
+        24.000000000000004,
+        -6.500000000000004,
+        6.5
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "dock-forward",
+      "definition_id": "docking.port.s",
+      "position_m": [
+        0.0,
+        17.4,
+        0.0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "dock-zenith",
+      "definition_id": "docking.port.s",
+      "position_m": [
+        0.0,
+        14.0,
+        2.4
+      ],
+      "rotation_xyzw": [
+        0.7071067811865476,
+        0,
+        0,
+        0.7071067811865476
+      ],
+      "settings": {}
+    },
+    {
+      "id": "dock-nadir",
+      "definition_id": "docking.port.s",
+      "position_m": [
+        0.0,
+        14.0,
+        -2.4
+      ],
+      "rotation_xyzw": [
+        -0.7071067811865476,
+        0,
+        0,
+        0.7071067811865476
+      ],
+      "settings": {}
+    },
+    {
+      "id": "dock-aft",
+      "definition_id": "docking.port.s",
+      "position_m": [
+        0.0,
+        -17.4,
+        0.0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "settings": {}
+    },
+    {
+      "id": "dock-service",
+      "definition_id": "docking.port.s",
+      "position_m": [
+        -2.4,
+        -13.0,
+        0.0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0.7071067811865476,
+        0.7071067811865476
+      ],
+      "settings": {}
+    },
+    {
+      "id": "rcs-0",
+      "definition_id": "utility.rcs.s",
+      "position_m": [
+        2.4,
+        -13.0,
+        0.0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        -0.7071067811865476,
+        0.7071067811865476
+      ],
+      "settings": {}
+    },
+    {
+      "id": "rcs-1",
+      "definition_id": "utility.rcs.s",
+      "position_m": [
+        0.0,
+        -13.0,
+        2.4
+      ],
+      "rotation_xyzw": [
+        0.7071067811865476,
+        0,
+        0,
+        0.7071067811865476
+      ],
+      "settings": {}
+    },
+    {
+      "id": "rcs-2",
+      "definition_id": "utility.rcs.s",
+      "position_m": [
+        0.0,
+        -13.0,
+        -2.4
+      ],
+      "rotation_xyzw": [
+        -0.7071067811865476,
+        0,
+        0,
+        0.7071067811865476
+      ],
+      "settings": {}
+    },
+    {
+      "id": "rcs-3",
+      "definition_id": "utility.rcs.s",
+      "position_m": [
+        2.4,
+        -5.551115123125783e-17,
+        0.0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        -0.7071067811865476,
+        0.7071067811865476
+      ],
+      "settings": {}
+    },
+    {
+      "id": "service-tank",
+      "definition_id": "tank.small",
+      "position_m": [
+        -3.0,
+        -6.0,
+        0.0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0.7071067811865476,
+        0.7071067811865476
+      ],
+      "settings": {
+        "fuel_fill": 1,
+        "oxidizer_fill": 1
+      }
+    },
+    {
+      "id": "service-engine",
+      "definition_id": "engine.mote",
+      "position_m": [
+        -4.4,
+        -6.0,
+        0.0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0.7071067811865476,
+        0.7071067811865476
+      ],
+      "settings": {}
+    }
+  ],
+  "connections": [
+    {
+      "id": "joint_1",
+      "a": [
+        "aors-core",
+        "top"
+      ],
+      "b": [
+        "aors-lab-axial",
+        "bottom"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_2",
+      "a": [
+        "aors-lab-axial",
+        "top"
+      ],
+      "b": [
+        "aors-node-forward",
+        "bottom"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_3",
+      "a": [
+        "aors-node-forward",
+        "port_x"
+      ],
+      "b": [
+        "aors-lab-port",
+        "bottom"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_4",
+      "a": [
+        "aors-node-forward",
+        "starboard"
+      ],
+      "b": [
+        "aors-lab-starboard",
+        "bottom"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_5",
+      "a": [
+        "aors-core",
+        "bottom"
+      ],
+      "b": [
+        "aors-hab-node",
+        "top"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_6",
+      "a": [
+        "aors-hab-node",
+        "bottom"
+      ],
+      "b": [
+        "aors-service",
+        "top"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_7",
+      "a": [
+        "aors-core",
+        "port_x"
+      ],
+      "b": [
+        "aors-airlock",
+        "bottom"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_8",
+      "a": [
+        "aors-hab-node",
+        "starboard_x"
+      ],
+      "b": [
+        "aors-logistics",
+        "bottom"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_9",
+      "a": [
+        "aors-hab-node",
+        "dock_nadir"
+      ],
+      "b": [
+        "aors-observation",
+        "bottom"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_10",
+      "a": [
+        "aors-core",
+        "zenith_m"
+      ],
+      "b": [
+        "aors-keel",
+        "bottom"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_11",
+      "a": [
+        "aors-keel",
+        "top"
+      ],
+      "b": [
+        "truss-center",
+        "keel"
+      ],
+      "crossfeed": true,
+      "strength": 1500000,
+      "shear_strength": 800000,
+      "bending_strength": 4000000,
+      "torsion_strength": 1500000
+    },
+    {
+      "id": "joint_12",
+      "a": [
+        "truss-center",
+        "bottom"
+      ],
+      "b": [
+        "truss-port-1",
+        "top"
+      ],
+      "crossfeed": true,
+      "strength": 1500000,
+      "shear_strength": 800000,
+      "bending_strength": 4000000,
+      "torsion_strength": 1500000
+    },
+    {
+      "id": "joint_13",
+      "a": [
+        "truss-port-1",
+        "bottom"
+      ],
+      "b": [
+        "truss-port-2",
+        "top"
+      ],
+      "crossfeed": true,
+      "strength": 1500000,
+      "shear_strength": 800000,
+      "bending_strength": 4000000,
+      "torsion_strength": 1500000
+    },
+    {
+      "id": "joint_14",
+      "a": [
+        "truss-port-2",
+        "bottom"
+      ],
+      "b": [
+        "truss-port-3",
+        "top"
+      ],
+      "crossfeed": true,
+      "strength": 1500000,
+      "shear_strength": 800000,
+      "bending_strength": 4000000,
+      "torsion_strength": 1500000
+    },
+    {
+      "id": "joint_15",
+      "a": [
+        "truss-center",
+        "top"
+      ],
+      "b": [
+        "truss-starboard-1",
+        "bottom"
+      ],
+      "crossfeed": true,
+      "strength": 1500000,
+      "shear_strength": 800000,
+      "bending_strength": 4000000,
+      "torsion_strength": 1500000
+    },
+    {
+      "id": "joint_16",
+      "a": [
+        "truss-starboard-1",
+        "top"
+      ],
+      "b": [
+        "truss-starboard-2",
+        "bottom"
+      ],
+      "crossfeed": true,
+      "strength": 1500000,
+      "shear_strength": 800000,
+      "bending_strength": 4000000,
+      "torsion_strength": 1500000
+    },
+    {
+      "id": "joint_17",
+      "a": [
+        "truss-starboard-2",
+        "top"
+      ],
+      "b": [
+        "truss-starboard-3",
+        "bottom"
+      ],
+      "crossfeed": true,
+      "strength": 1500000,
+      "shear_strength": 800000,
+      "bending_strength": 4000000,
+      "torsion_strength": 1500000
+    },
+    {
+      "id": "joint_18",
+      "a": [
+        "truss-starboard-3",
+        "top"
+      ],
+      "b": [
+        "truss-starboard-4",
+        "bottom"
+      ],
+      "crossfeed": true,
+      "strength": 1500000,
+      "shear_strength": 800000,
+      "bending_strength": 4000000,
+      "torsion_strength": 1500000
+    },
+    {
+      "id": "joint_19",
+      "a": [
+        "truss-port-1",
+        "wing_front"
+      ],
+      "b": [
+        "truss-port-1-solar-front",
+        "bottom"
+      ],
+      "crossfeed": true,
+      "strength": 20000,
+      "shear_strength": 8000,
+      "bending_strength": 20000,
+      "torsion_strength": 15000
+    },
+    {
+      "id": "joint_20",
+      "a": [
+        "truss-port-1",
+        "wing_aft"
+      ],
+      "b": [
+        "truss-port-1-solar-aft",
+        "top"
+      ],
+      "crossfeed": true,
+      "strength": 20000,
+      "shear_strength": 8000,
+      "bending_strength": 20000,
+      "torsion_strength": 15000
+    },
+    {
+      "id": "joint_21",
+      "a": [
+        "truss-port-3",
+        "wing_front"
+      ],
+      "b": [
+        "truss-port-3-solar-front",
+        "bottom"
+      ],
+      "crossfeed": true,
+      "strength": 20000,
+      "shear_strength": 8000,
+      "bending_strength": 20000,
+      "torsion_strength": 15000
+    },
+    {
+      "id": "joint_22",
+      "a": [
+        "truss-port-3",
+        "wing_aft"
+      ],
+      "b": [
+        "truss-port-3-solar-aft",
+        "top"
+      ],
+      "crossfeed": true,
+      "strength": 20000,
+      "shear_strength": 8000,
+      "bending_strength": 20000,
+      "torsion_strength": 15000
+    },
+    {
+      "id": "joint_23",
+      "a": [
+        "truss-starboard-1",
+        "wing_front"
+      ],
+      "b": [
+        "truss-starboard-1-solar-front",
+        "bottom"
+      ],
+      "crossfeed": true,
+      "strength": 20000,
+      "shear_strength": 8000,
+      "bending_strength": 20000,
+      "torsion_strength": 15000
+    },
+    {
+      "id": "joint_24",
+      "a": [
+        "truss-starboard-1",
+        "wing_aft"
+      ],
+      "b": [
+        "truss-starboard-1-solar-aft",
+        "top"
+      ],
+      "crossfeed": true,
+      "strength": 20000,
+      "shear_strength": 8000,
+      "bending_strength": 20000,
+      "torsion_strength": 15000
+    },
+    {
+      "id": "joint_25",
+      "a": [
+        "truss-starboard-3",
+        "wing_front"
+      ],
+      "b": [
+        "truss-starboard-3-solar-front",
+        "bottom"
+      ],
+      "crossfeed": true,
+      "strength": 20000,
+      "shear_strength": 8000,
+      "bending_strength": 20000,
+      "torsion_strength": 15000
+    },
+    {
+      "id": "joint_26",
+      "a": [
+        "truss-starboard-3",
+        "wing_aft"
+      ],
+      "b": [
+        "truss-starboard-3-solar-aft",
+        "top"
+      ],
+      "crossfeed": true,
+      "strength": 20000,
+      "shear_strength": 8000,
+      "bending_strength": 20000,
+      "torsion_strength": 15000
+    },
+    {
+      "id": "joint_27",
+      "a": [
+        "truss-port-2",
+        "radiator_front"
+      ],
+      "b": [
+        "truss-port-2-radiator-front",
+        "bottom"
+      ],
+      "crossfeed": true,
+      "strength": 20000,
+      "shear_strength": 8000,
+      "bending_strength": 20000,
+      "torsion_strength": 15000
+    },
+    {
+      "id": "joint_28",
+      "a": [
+        "truss-port-2",
+        "radiator_aft"
+      ],
+      "b": [
+        "truss-port-2-radiator-aft",
+        "top"
+      ],
+      "crossfeed": true,
+      "strength": 20000,
+      "shear_strength": 8000,
+      "bending_strength": 20000,
+      "torsion_strength": 15000
+    },
+    {
+      "id": "joint_29",
+      "a": [
+        "truss-center",
+        "radiator_front"
+      ],
+      "b": [
+        "truss-center-radiator-front",
+        "bottom"
+      ],
+      "crossfeed": true,
+      "strength": 20000,
+      "shear_strength": 8000,
+      "bending_strength": 20000,
+      "torsion_strength": 15000
+    },
+    {
+      "id": "joint_30",
+      "a": [
+        "truss-center",
+        "radiator_aft"
+      ],
+      "b": [
+        "truss-center-radiator-aft",
+        "top"
+      ],
+      "crossfeed": true,
+      "strength": 20000,
+      "shear_strength": 8000,
+      "bending_strength": 20000,
+      "torsion_strength": 15000
+    },
+    {
+      "id": "joint_31",
+      "a": [
+        "truss-starboard-2",
+        "radiator_front"
+      ],
+      "b": [
+        "truss-starboard-2-radiator-front",
+        "bottom"
+      ],
+      "crossfeed": true,
+      "strength": 20000,
+      "shear_strength": 8000,
+      "bending_strength": 20000,
+      "torsion_strength": 15000
+    },
+    {
+      "id": "joint_32",
+      "a": [
+        "truss-starboard-2",
+        "radiator_aft"
+      ],
+      "b": [
+        "truss-starboard-2-radiator-aft",
+        "top"
+      ],
+      "crossfeed": true,
+      "strength": 20000,
+      "shear_strength": 8000,
+      "bending_strength": 20000,
+      "torsion_strength": 15000
+    },
+    {
+      "id": "joint_33",
+      "a": [
+        "aors-node-forward",
+        "dock_top"
+      ],
+      "b": [
+        "dock-forward",
+        "bottom"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_34",
+      "a": [
+        "aors-node-forward",
+        "dock_zenith"
+      ],
+      "b": [
+        "dock-zenith",
+        "bottom"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_35",
+      "a": [
+        "aors-node-forward",
+        "dock_nadir"
+      ],
+      "b": [
+        "dock-nadir",
+        "bottom"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_36",
+      "a": [
+        "aors-service",
+        "dock_bottom"
+      ],
+      "b": [
+        "dock-aft",
+        "bottom"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_37",
+      "a": [
+        "aors-service",
+        "dock_port"
+      ],
+      "b": [
+        "dock-service",
+        "bottom"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_38",
+      "a": [
+        "aors-service",
+        "dock_starboard"
+      ],
+      "b": [
+        "rcs-0",
+        "bottom"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_39",
+      "a": [
+        "aors-service",
+        "dock_zenith"
+      ],
+      "b": [
+        "rcs-1",
+        "bottom"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_40",
+      "a": [
+        "aors-service",
+        "dock_nadir"
+      ],
+      "b": [
+        "rcs-2",
+        "bottom"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_41",
+      "a": [
+        "aors-core",
+        "dock_starboard"
+      ],
+      "b": [
+        "rcs-3",
+        "bottom"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_42",
+      "a": [
+        "aors-hab-node",
+        "dock_port"
+      ],
+      "b": [
+        "service-tank",
+        "bottom"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_43",
+      "a": [
+        "service-tank",
+        "top"
+      ],
+      "b": [
+        "service-engine",
+        "bottom"
+      ],
+      "crossfeed": true
+    }
+  ],
+  "stages": [],
+  "symmetry_groups": [],
+  "aero_model": "parts"
+}

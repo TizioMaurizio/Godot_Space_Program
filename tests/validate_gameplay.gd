@@ -89,7 +89,7 @@ func run() -> void:
 	await capture("07_debug")
 	game.reset_flight(false)
 	game.rocket.on_pad = false
-	game.rocket.position = DVec3.new(0, game.planet.radius + 15, 0)
+	game.rocket.position = DVec3.new(0, game.planet.radius + SurfaceQuery.height(game.planet,DVec3.new(0,1,0),0) + 15, 0)
 	game.rocket.velocity = DVec3.new(0, -100, 0)
 	for i in range(20):
 		game._physics_process(1.0 / 60)
@@ -168,4 +168,7 @@ func run() -> void:
 	await capture("11_white_sun")
 	check(game.rocket.heating == 0 and game.rocket.aerodynamic_torque.length() == 0, "reentry effects and torque have no source in vacuum")
 	print("RESULT: %d failures" % failures)
+	game.queue_free()
+	await process_frame
+	await RenderingServer.frame_post_draw
 	quit(1 if failures else 0)

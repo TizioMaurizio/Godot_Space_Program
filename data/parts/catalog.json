@@ -1,0 +1,23 @@
+[
+ {"id":"command.capsule","display_name":"Wayfarer Capsule","category":"Command","dry_mass":1500,"length":4,"radius":1.5,"visual":"capsule","crash_speed":18,"modules":{"command":{},"wheel":{"torque":1000000},"battery":{"capacity":600}},"description":"Training capsule with high-authority electric attitude control. Idealized power budget."},
+ {"id":"tank.lumen","display_name":"Lumen Tank","category":"Fuel","dry_mass":700,"length":6.5,"radius":1.5,"modules":{"tank":{"fuel":1666.6666666667,"oxidizer":3333.3333333333}}},
+ {"id":"engine.lumen","display_name":"Lumen Vacuum Engine","category":"Engines","dry_mass":300,"length":1.5,"radius":1.5,"visual":"engine","modules":{"engine":{"thrust":100000,"isp_sl":270,"isp_vac":360,"mixture":2,"gimbal_deg":4}}},
+ {"id":"decoupler.stack","display_name":"Vector Stack Decoupler","category":"Structural","dry_mass":100,"length":0.5,"radius":1.5,"visual":"decoupler","modules":{"decoupler":{"node":"top","crossfeed":false,"separation_speed":2}}},
+ {"id":"tank.forge","display_name":"Forge Tank","category":"Fuel","dry_mass":2500,"length":11.5,"radius":1.5,"modules":{"tank":{"fuel":6000,"oxidizer":12000}}},
+ {"id":"engine.forge","display_name":"Forge Atmospheric Engine","category":"Engines","dry_mass":900,"length":2,"radius":1.5,"visual":"engine","modules":{"engine":{"thrust":540000,"isp_sl":285,"isp_vac":320,"mixture":2,"gimbal_deg":4}}},
+ {"id":"command.probe","display_name":"Pip Probe Core","category":"Command","dry_mass":120,"length":0.5,"radius":0.6,"visual":"probe","modules":{"command":{},"wheel":{"torque":12000},"battery":{"capacity":300}}},
+ {"id":"tank.small","display_name":"Sprout Small Tank","category":"Fuel","dry_mass":100,"length":2,"radius":0.6,"modules":{"tank":{"fuel":300,"oxidizer":600}}},
+ {"id":"tank.medium","display_name":"Field Medium Tank","category":"Fuel","dry_mass":400,"length":4,"radius":1.0,"modules":{"tank":{"fuel":1000,"oxidizer":2000}}},
+ {"id":"engine.spark","display_name":"Spark Atmospheric Engine","category":"Engines","dry_mass":100,"length":1,"radius":0.6,"visual":"engine","modules":{"engine":{"thrust":90000,"isp_sl":275,"isp_vac":310,"mixture":2,"gimbal_deg":6}}},
+ {"id":"engine.field","display_name":"Field Atmospheric Engine","category":"Engines","dry_mass":400,"length":1.5,"radius":1.0,"visual":"engine","modules":{"engine":{"thrust":320000,"isp_sl":280,"isp_vac":320,"mixture":2,"gimbal_deg":4}}},
+ {"id":"engine.mote","display_name":"Mote Vacuum Engine","category":"Engines","dry_mass":60,"length":0.8,"radius":0.6,"visual":"engine","modules":{"engine":{"thrust":25000,"isp_sl":220,"isp_vac":365,"mixture":2,"gimbal_deg":8}}},
+ {"id":"decoupler.small","display_name":"Vector Small Decoupler","category":"Structural","dry_mass":30,"length":0.3,"radius":0.6,"visual":"decoupler","strength":300000,"bending_strength":100000,"modules":{"decoupler":{"node":"top","crossfeed":false,"separation_speed":1}}},
+ {"id":"decoupler.radial","display_name":"Latch Radial Decoupler","category":"Structural","dry_mass":100,"length":0.6,"radius":0.4,"visual":"decoupler","strength":120000,"bending_strength":80000,"modules":{"decoupler":{"node":"surface","crossfeed":false,"separation_speed":1}}},
+ {"id":"structure.adapter","display_name":"Taper Structural Adapter","category":"Structural","dry_mass":150,"length":1,"radius":1.5,"visual":"adapter","nodes":{"top":{"position":[0,0.5,0],"normal":[0,1,0],"size":1.5},"bottom":{"position":[0,-0.5,0],"normal":[0,-1,0],"size":0.6},"radial":{"position":[1.5,0,0],"normal":[1,0,0],"size":0,"capacity":8},"surface":{"position":[-1.5,0,0],"normal":[-1,0,0],"size":0}}},
+ {"id":"aero.nose","display_name":"Crest Nose Cone","category":"Aerodynamics","dry_mass":80,"length":1.5,"radius":0.6,"visual":"capsule","drag_coefficient":0.15},
+ {"id":"aero.fin","display_name":"Keel Fin","category":"Aerodynamics","dry_mass":25,"length":1.2,"radius":0.4,"visual":"fin","modules":{"fin":{"area":1.2,"control":false}}},
+ {"id":"aero.control","display_name":"Keel Control Surface","category":"Aerodynamics","dry_mass":40,"length":1.2,"radius":0.4,"visual":"fin","modules":{"fin":{"area":1.2,"control":true,"deflection_deg":12}}},
+ {"id":"utility.wheel","display_name":"Trim Reaction Wheel","category":"Utility","dry_mass":100,"length":0.4,"radius":0.6,"visual":"probe","modules":{"wheel":{"torque":50000},"battery":{"capacity":100}}},
+ {"id":"utility.parachute","display_name":"Petal Parachute","category":"Utility","dry_mass":80,"length":0.6,"radius":0.5,"visual":"parachute","modules":{"parachute":{"area":80,"maximum_q":10000}}},
+ {"id":"utility.leg","display_name":"Sprig Landing Leg","category":"Utility","dry_mass":90,"length":2.5,"radius":0.3,"visual":"leg","crash_speed":9,"modules":{"leg":{}}}
+]

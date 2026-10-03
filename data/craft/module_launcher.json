@@ -1,0 +1,438 @@
+{
+  "schema_version": 1,
+  "catalog_version": 1,
+  "name": "X Module Launcher / three Forge boosters",
+  "root_part_id": "capsule",
+  "parts": [
+    {
+      "id": "capsule",
+      "definition_id": "command.capsule",
+      "position_m": [
+        0,
+        0,
+        0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "dock",
+      "definition_id": "docking.port.s",
+      "position_m": [
+        0.0,
+        2.4,
+        0.0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "module",
+      "definition_id": "container.x",
+      "position_m": [
+        0.0,
+        -5.0,
+        0.0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "upper-tank",
+      "definition_id": "tank.lumen",
+      "position_m": [
+        0.0,
+        -11.25,
+        0.0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "upper-engine",
+      "definition_id": "engine.lumen",
+      "position_m": [
+        0.0,
+        -15.25,
+        0.0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "interstage",
+      "definition_id": "decoupler.stack",
+      "position_m": [
+        0.0,
+        -16.25,
+        0.0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "booster-tank",
+      "definition_id": "tank.forge",
+      "position_m": [
+        0.0,
+        -22.25,
+        0.0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "booster-engine",
+      "definition_id": "engine.forge",
+      "position_m": [
+        0.0,
+        -29.0,
+        0.0
+      ],
+      "rotation_xyzw": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "settings": {}
+    },
+    {
+      "id": "radial-0",
+      "definition_id": "decoupler.radial",
+      "position_m": [
+        1.9,
+        -18.225,
+        0.0
+      ],
+      "rotation_xyzw": [
+        0,
+        0.0,
+        0,
+        1.0
+      ],
+      "settings": {}
+    },
+    {
+      "id": "radial-0-tank",
+      "definition_id": "tank.forge",
+      "position_m": [
+        3.8,
+        -18.225,
+        0.0
+      ],
+      "rotation_xyzw": [
+        0,
+        0.0,
+        0,
+        1.0
+      ],
+      "settings": {}
+    },
+    {
+      "id": "radial-0-engine",
+      "definition_id": "engine.forge",
+      "position_m": [
+        3.8,
+        -24.975,
+        0.0
+      ],
+      "rotation_xyzw": [
+        0,
+        0.0,
+        0,
+        1.0
+      ],
+      "settings": {}
+    },
+    {
+      "id": "radial-1",
+      "definition_id": "decoupler.radial",
+      "position_m": [
+        -1.9,
+        -18.225,
+        -2.326828918379971e-16
+      ],
+      "rotation_xyzw": [
+        0,
+        1.0,
+        0,
+        6.123233995736766e-17
+      ],
+      "settings": {}
+    },
+    {
+      "id": "radial-1-tank",
+      "definition_id": "tank.forge",
+      "position_m": [
+        -3.8,
+        -18.225,
+        -4.653657836759942e-16
+      ],
+      "rotation_xyzw": [
+        0,
+        1.0,
+        0,
+        6.123233995736766e-17
+      ],
+      "settings": {}
+    },
+    {
+      "id": "radial-1-engine",
+      "definition_id": "engine.forge",
+      "position_m": [
+        -3.8,
+        -24.975,
+        -4.653657836759942e-16
+      ],
+      "rotation_xyzw": [
+        0,
+        1.0,
+        0,
+        6.123233995736766e-17
+      ],
+      "settings": {}
+    }
+  ],
+  "connections": [
+    {
+      "id": "joint_1",
+      "a": [
+        "capsule",
+        "top"
+      ],
+      "b": [
+        "dock",
+        "bottom"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_2",
+      "a": [
+        "capsule",
+        "bottom"
+      ],
+      "b": [
+        "module",
+        "top"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_3",
+      "a": [
+        "module",
+        "bottom"
+      ],
+      "b": [
+        "upper-tank",
+        "top"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_4",
+      "a": [
+        "upper-tank",
+        "bottom"
+      ],
+      "b": [
+        "upper-engine",
+        "top"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_5",
+      "a": [
+        "upper-engine",
+        "bottom"
+      ],
+      "b": [
+        "interstage",
+        "top"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_6",
+      "a": [
+        "interstage",
+        "bottom"
+      ],
+      "b": [
+        "booster-tank",
+        "top"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_7",
+      "a": [
+        "booster-tank",
+        "bottom"
+      ],
+      "b": [
+        "booster-engine",
+        "top"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_8",
+      "a": [
+        "booster-tank",
+        "radial_high"
+      ],
+      "b": [
+        "radial-0",
+        "surface"
+      ],
+      "crossfeed": true,
+      "radial_angle": 0
+    },
+    {
+      "id": "joint_9",
+      "a": [
+        "radial-0",
+        "radial"
+      ],
+      "b": [
+        "radial-0-tank",
+        "surface"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_10",
+      "a": [
+        "radial-0-tank",
+        "bottom"
+      ],
+      "b": [
+        "radial-0-engine",
+        "top"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_11",
+      "a": [
+        "booster-tank",
+        "radial_high"
+      ],
+      "b": [
+        "radial-1",
+        "surface"
+      ],
+      "crossfeed": true,
+      "radial_angle": 3.141592653589793
+    },
+    {
+      "id": "joint_12",
+      "a": [
+        "radial-1",
+        "radial"
+      ],
+      "b": [
+        "radial-1-tank",
+        "surface"
+      ],
+      "crossfeed": true
+    },
+    {
+      "id": "joint_13",
+      "a": [
+        "radial-1-tank",
+        "bottom"
+      ],
+      "b": [
+        "radial-1-engine",
+        "top"
+      ],
+      "crossfeed": true
+    }
+  ],
+  "stages": [
+    {
+      "id": "launch",
+      "actions": [
+        {
+          "part_id": "booster-engine",
+          "action": "ignite"
+        },
+        {
+          "part_id": "radial-0-engine",
+          "action": "ignite"
+        },
+        {
+          "part_id": "radial-1-engine",
+          "action": "ignite"
+        }
+      ]
+    },
+    {
+      "id": "upper",
+      "actions": [
+        {
+          "part_id": "booster-engine",
+          "action": "shutdown"
+        },
+        {
+          "part_id": "radial-0-engine",
+          "action": "shutdown"
+        },
+        {
+          "part_id": "radial-1-engine",
+          "action": "shutdown"
+        },
+        {
+          "part_id": "interstage",
+          "action": "decouple"
+        },
+        {
+          "part_id": "upper-engine",
+          "action": "ignite"
+        }
+      ]
+    }
+  ],
+  "symmetry_groups": [],
+  "aero_model": "parts"
+}

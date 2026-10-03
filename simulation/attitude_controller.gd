@@ -55,7 +55,7 @@ func step(body: FlightBody, planet: PlanetDefinition, manual: Vector3, dt: float
 	accel = accel.limit_length(max_acceleration)
 	var moments: Vector3 = body.inertia()
 	# Euler rigid-body equation in body coordinates: I*w_dot = torque - w × Iw.
-	last_torque = (moments * accel).limit_length(moments.x * max_acceleration)
+	last_torque = body.inertia_tensor().multiply(DVector.from_vec(accel)).vec().limit_length(minf(moments.x * max_acceleration,body.control_torque_limit()))
 	body.integrate_attitude(last_torque, dt)
 	if using_manual:
 		target = body.orientation

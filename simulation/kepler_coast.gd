@@ -21,7 +21,7 @@ static func s(z: float) -> float:
 	return (sinh(root) - root) / (root * root * root)
 
 static func advance(body: FlightBody, planet: PlanetDefinition, dt: float) -> bool:
-	if body.crashed or dt == 0:
+	if not body.simulation_active or dt == 0:
 		return true
 	var r0: float = body.position.length()
 	var mu: float = planet.mu()

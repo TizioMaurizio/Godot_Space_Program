@@ -111,4 +111,8 @@ func run() -> void:
 	game.reset_flight(false)
 	check(not game.map_active and not game.orbit_map.initialized_view and game.hud.visible, "relaunch resets map state and restores flight UI")
 	print("RESULT: %d failures" % failures)
+	# Dispose the rendered scene while the renderer is still alive, then quit.
+	game.queue_free()
+	await process_frame
+	await RenderingServer.frame_post_draw
 	quit(1 if failures else 0)

@@ -8,6 +8,9 @@ extends Resource
 @export var gravitational_parameter: float = 0.0
 @export var rotation_rate: float = TAU / 21600.0
 @export var atmosphere: AtmosphereDefinition
+@export var terrain: TerrainDefinition
+@export var ocean: OceanDefinition
+@export var axial_tilt: float = 0.0
 
 func mu() -> float:
 	return gravitational_parameter if gravitational_parameter > 0.0 else surface_gravity * radius * radius

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CelestialBodyDefinition" load_steps=6 format=3]
+[ext_resource type="Script" path="res://definitions/celestial_body_definition.gd" id="1"]
+[ext_resource type="Script" path="res://definitions/atmosphere_definition.gd" id="2"]
+[ext_resource type="Script" path="res://definitions/terrain_definition.gd" id="3"]
+[sub_resource type="Resource" id="Vacuum"]
+script = ExtResource("2")
+height = 0.0
+sea_level_density = 0.0
+sea_level_pressure = 0.0
+[sub_resource type="Resource" id="Terrain"]
+script = ExtResource("3")
+style = "lunar"
+launch_plateau = false
+maximum_height = 1500.0
+[resource]
+script = ExtResource("1")
+display_name = "Neris"
+radius = 100000.0
+surface_gravity = 0.8
+gravitational_parameter = 8000000000.0
+rotation_rate = 0.000361664362652
+atmosphere = SubResource("Vacuum")
+terrain = SubResource("Terrain")
+orbit_radius = 3000000.0
+orbit_phase = 1.2
